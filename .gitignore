@@ -2,6 +2,8 @@
 logs
 *.log
 npm-debug.log*
+data/journal
+data
 
 # Runtime data
 pids
