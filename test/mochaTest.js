@@ -14,12 +14,20 @@ describe('Test', function() {
 });
 
 describe('Routing', function() {
-    describe('enter paths', function() {
-        it('index', function(done) {
+    describe('should enter correct paths', function() {
+        it('/', function(done) {
             api
                 .get('/')
                 .expect('Content-Type', /html/)
                 .expect(200, done)
+        });
+    });
+
+    describe('should not enter incorrect paths', function() {
+        it('/thispagenotfound', function(done) {
+            api
+                .get('/thispagenotfound')
+                .expect(404, done)
         });
     });
     /*describe('#callback()', function() {
