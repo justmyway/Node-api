@@ -16,14 +16,22 @@ var app = express();
 
 //connect to DB
 var configDB = require('./config/database.js');
-mongoose.connect(configDB.url);
+/* istanbul ignore else: only test test database */
+if (process.env.HOME == "test") {
+    mongoose.connect(configDB.testurl);
+} else {
+    mongoose.connect(configDB.url);
+}
 
 // view engine setup
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+/* istanbul ignore if: the disabled logger */
+if (process.env.HOME != "test") {
+    app.use(logger('dev'));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -58,6 +66,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
+/* istanbul ignore next */
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {

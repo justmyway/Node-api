@@ -1,0 +1,1 @@
+mongod --dbpath "C:\Users\Michael\Documents\school\Node\final\data"
