@@ -27,6 +27,7 @@ build/Release
 
 # Dependency directory
 node_modules
+startDB.cmd
 
 # Optional npm cache directory
 .npm

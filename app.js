@@ -34,14 +34,19 @@ if (process.env.HOME != "test") {
 }
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Models
+require('./app/models/userModel');
+require('./app/models/routesModel');
+
 // Routes
-require('./app/routes/index.js')(app);
-require('./app/routes/users.js');
+require('./app/routes/index')(app);
+require('./app/routes/users');
+require('./app/routes/routes')(app);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
