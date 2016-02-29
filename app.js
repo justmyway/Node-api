@@ -45,7 +45,7 @@ require('./app/models/routesModel');
 
 // Routes
 require('./app/routes/index')(app);
-require('./app/routes/users');
+require('./app/routes/users')(app);
 require('./app/routes/routes')(app);
 
 /// catch 404 and forwarding to error handler

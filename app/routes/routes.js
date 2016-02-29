@@ -1,14 +1,27 @@
 // load models
 var mongoose = require('mongoose');
 var Routes = mongoose.model('Routes');
-//var RoutesModel = require('../models/routesModel');
 
 module.exports = function(app) {
 
 	app.get('/routes', function(req, res){
 
-		//var routes = new RoutesModel();
+		Routes.find({}, function(err, routes){
+		    res.status(200).send(routes);  
+	 	});
+	});
 
-		res.status(200).end();
+	app.post('/routes', function(req, res){
+
+		var newRoute = new Routes();
+
+		
+	});
+
+	app.get('/routes/:id', function(req, res){
+
+		Routes.find({ 'id': id}, function(err, route){
+			res.status(200).send(route);
+		});
 	});
 };

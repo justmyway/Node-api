@@ -14,6 +14,13 @@ describe('Routing', function() {
             .expect(200, done)
     });
 
+    it('/routes', function(done) {
+        api
+            .get('/routes')
+            .expect('Content-Type', /html/)
+            .expect(200, done)
+    });
+
     it('/thispagenotfound', function(done) {
         api
             .get('/thispagenotfound')
