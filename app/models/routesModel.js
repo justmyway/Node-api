@@ -4,7 +4,12 @@ var routesSchema = mongoose.Schema({
     Id: String,
     //Climber: {type: Schema.Types.ObjectId},
 
+    Outdoor: Boolean,
     Name: String,
+    LeadClimbed: Boolean,
+    Rope: String,
+    Color: String,
+
     Location : {
     	Longatude: String,
     	Latetude: String,
