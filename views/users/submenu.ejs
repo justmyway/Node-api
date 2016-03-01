@@ -1,29 +1,29 @@
 <!-- Sub menu -->
 <div id="list" class="pure-u-1">
-    <div class="email-item email-item-selected pure-g">
+    <div class="email-item <%= page == 'login' ? 'email-item-selected' : '' %> pure-g">
         <div class="pure-u">
             <img class="email-avatar" height="64" width="64" src="/images/login.png">
         </div>
 
         <div class="pure-u-3-4">
             <h5 class="email-name">Account</h5>
-            <h4 class="email-subject">Hello from Toronto</h4>
+            <h4 class="email-subject">Inloggen</h4>
             <p class="email-desc">
-                Hey, I just wanted to check in with you from Toronto. I got here earlier today.
+                Inloggen kan hier. Als je een account hebt kan dit natuurlijk.
             </p>
         </div>
     </div>
 
-    <div class="email-item pure-g">
+    <div class="email-item <%= page == 'register' ? 'email-item-selected' : '' %> pure-g">
         <div class="pure-u">
             <img class="email-avatar" height="64" width="64" src="/images/add.png">
         </div>
 
         <div class="pure-u-3-4">
             <h5 class="email-name">Account</h5>
-            <h4 class="email-subject">Re: Pull Requests</h4>
+            <h4 class="email-subject">Registreren</h4>
             <p class="email-desc">
-                Hey, I had some feedback for pull request #51. We should center the menu so it looks better on mobile.
+                Nieuw? Klik hier om je te registreren.
             </p>
         </div>
     </div>

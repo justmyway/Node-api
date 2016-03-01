@@ -6,7 +6,7 @@ module.exports = function(app) {
 
     app.get('/profile/login', function(req, res){
 
-        res.status(200).render('users/login.ejs');
+        res.status(200).render('users/login.ejs', { page: 'login'});
     });
 
     app.get('/profile', function(req, res){
