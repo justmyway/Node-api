@@ -18,11 +18,6 @@
                         </div>
                     </div>
                     <div class="email-content-body">
-                        <% if (flash) { %>
-                        <div class="info error">
-                            <h3><%= flash.registerMessage %></h3>                            
-                        </div>
-                        <% } %>
                         <form class="pure-form pure-form-aligned" action="/profile/register" method="post">
                             <fieldset>
                                 <div class="pure-control-group">

@@ -42,11 +42,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
+// app.use(express.json());       // to support JSON-encoded bodies
+// app.use(express.urlencoded()); // to support URL-encoded bodies
 
 //Authentication
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Models
@@ -55,7 +57,7 @@ require('./app/models/routesModel');
 
 // Routes
 require('./app/routes/index')(app);
-require('./app/routes/users')(app);
+require('./app/routes/users')(app, passport);
 require('./app/routes/routes')(app);
 
 /// catch 404 and forwarding to error handler

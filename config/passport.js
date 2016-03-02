@@ -28,6 +28,8 @@ module.exports = function(passport) {
         },
         function(req, username, password, email, name, done) {
 
+            console.log('1');
+
             // asynchronous
             // User.findOne wont fire unless data is sent back
             process.nextTick(function() {
@@ -37,6 +39,7 @@ module.exports = function(passport) {
                 User.findOne({
                     'Username': username
                 }, function(err, user) {
+                    console.log('2');
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
@@ -45,6 +48,7 @@ module.exports = function(passport) {
                     if (user) {
                         return done(null, false, req.flash('registerMessage', 'Er is al iemand met die gebruikersnaam.'));
                     } else {
+                        console.log('3');
 
                         // if there is no user with that email
                         // create the user
@@ -60,6 +64,8 @@ module.exports = function(passport) {
                         newUser.save(function(err) {
                             if (err)
                                 throw err;
+
+                            console.log('4');
                             return done(null, newUser);
                         });
                     }
