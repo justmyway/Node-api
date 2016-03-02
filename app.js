@@ -4,9 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var flash = require('connect-flash');
 
 // Database
 var mongoose = require('mongoose');
+
+// Passport
+require('./config/passport')(passport);
 
 // Testing
 var supertest = require("supertest");
@@ -37,6 +42,11 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
+
+//Authentication
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Models
