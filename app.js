@@ -4,16 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
-
-// Database
 var mongoose = require('mongoose');
-
-// Passport
-require('./config/passport')(passport);
-
-// Testing
 var supertest = require("supertest");
 
 // App
@@ -42,14 +36,22 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cookieParser());
-// app.use(express.json());       // to support JSON-encoded bodies
-// app.use(express.urlencoded()); // to support URL-encoded bodies
 
 //Authentication
+app.set('trust proxy', 1);
+app.use(session({
+    secret: 'michaelsbuild',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Passport
+require('./config/passport')(passport);
 
 // Models
 require('./app/models/userModel');

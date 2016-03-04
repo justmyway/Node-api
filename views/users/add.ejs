@@ -18,31 +18,34 @@
                         </div>
                     </div>
                     <div class="email-content-body">
+                        <% if (typeof errorMessage !== 'undefined') { %>
+                            <p class="error"><%= errorMessage %></p>
+                        <% } %>
                         <form class="pure-form pure-form-aligned" action="/profile/register" method="post">
                             <fieldset>
                                 <div class="pure-control-group">
                                     <label for="username">Gebruikersnaam</label>
-                                    <input id="username" type="text" placeholder="Gebruikersnaam">
+                                    <input id="username" name="username" type="text" placeholder="Gebruikersnaam">
                                 </div>
 
                                 <div class="pure-control-group">
                                     <label for="password">Wachtwoord</label>
-                                    <input id="password" type="password" placeholder="Password">
+                                    <input id="password" name="password" type="password" placeholder="Password">
                                 </div>
 
                                 <div class="pure-control-group">
                                     <label for="email">Email Address</label>
-                                    <input id="email" type="email" placeholder="example@website.com">
+                                    <input id="email" name="email" type="email" placeholder="example@website.com">
                                 </div>
 
                                 <div class="pure-control-group">
                                     <label for="name">Volledige naam</label>
-                                    <input id="name" type="text" placeholder="Mickey van de Ven">
+                                    <input id="name" name="name" type="text" placeholder="Mickey van de Ven">
                                 </div>
 
                                 <div class="pure-controls">
                                     <label for="cb" class="pure-checkbox">
-                                        <input id="cb" type="checkbox"> Ik heb de terms en condities gelezen, en ga accoord.
+                                        <input id="cb" name="terms" type="checkbox"> Ik heb de terms en condities gelezen, en ga accoord.
                                     </label>
 
                                     <button type="submit" class="pure-button pure-button-primary">Aanmelden</button>

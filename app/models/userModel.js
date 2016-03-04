@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt-nodejs');
 
 var userSchema = mongoose.Schema({
     Id: String,
@@ -15,3 +16,7 @@ var userSchema = mongoose.Schema({
 });
 
 mongoose.model('User', userSchema);
+
+User = mongoose.model('User', userSchema);
+
+module.exports.User = User;

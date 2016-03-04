@@ -1,6 +1,6 @@
 {
-  "name": "final",
-  "version": "0.0.0",
+  "name": "We_all_climb",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
@@ -23,6 +23,7 @@
     "passport": "~0.3.2",
     "passport-local": "~0.1.6",
     "passport-oauth": "~1.0.0",
+    "bcryptjs": "2.3.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {

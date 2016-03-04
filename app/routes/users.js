@@ -1,7 +1,9 @@
 // load models
 var mongoose = require('mongoose');
 var Users = mongoose.model('User');
-//var passport = require('passport');
+
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: true });
 
 module.exports = function(app, passport){
 
@@ -19,9 +21,9 @@ module.exports = function(app, passport){
     }));
 
     app.get('/profile/register', function(req, res) {
-        console.log('register router get');
         res.status(200).render('users/add.ejs', {
-            page: 'register'
+            page: 'register',
+            errorMessage: req.flash('registerMessage')
         });
     });
 
