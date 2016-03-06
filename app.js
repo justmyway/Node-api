@@ -4,16 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
-
-// Database
 var mongoose = require('mongoose');
-
-// Passport
-require('./config/passport')(passport);
-
-// Testing
 var supertest = require("supertest");
 
 // App
@@ -44,10 +38,20 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 
 //Authentication
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(flash());
+app.set('trust proxy', 1);
+app.use(session({
+    secret: 'michaelsbuild',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Passport
+require('./config/passport')(passport);
 
 // Models
 require('./app/models/userModel');
@@ -55,7 +59,7 @@ require('./app/models/routesModel');
 
 // Routes
 require('./app/routes/index')(app);
-require('./app/routes/users')(app);
+require('./app/routes/users')(app, passport);
 require('./app/routes/routes')(app);
 
 /// catch 404 and forwarding to error handler

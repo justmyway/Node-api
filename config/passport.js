@@ -1,9 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
 var OAuthStrategy = require('passport-oauth').OAuthStrategy;
 
-var User = require('../app/models/userModel');
+var User = require('../app/models/userModel').User;
 
-var oath_Credentials = require('./oath_secrets');
+var bcrypt = require('bcryptjs');
 
 module.exports = function(passport) {
 
@@ -26,7 +26,9 @@ module.exports = function(passport) {
             passwordField: 'password',
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
-        function(req, username, password, email, name, done) {
+        function(req, username, password, done) {
+
+            console.log('1');
 
             // asynchronous
             // User.findOne wont fire unless data is sent back
@@ -37,6 +39,7 @@ module.exports = function(passport) {
                 User.findOne({
                     'Username': username
                 }, function(err, user) {
+                    console.log('2');
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
@@ -45,21 +48,29 @@ module.exports = function(passport) {
                     if (user) {
                         return done(null, false, req.flash('registerMessage', 'Er is al iemand met die gebruikersnaam.'));
                     } else {
+                        console.log('3');
 
                         // if there is no user with that email
                         // create the user
                         var newUser = new User();
 
-                        // set the user's local credentials
+                        var salt = bcrypt.genSaltSync(4);
+                        console.log("salt: " + salt);
+
+                        var hash = bcrypt.hashSync(password, salt);
+                        console.log("hash: " + hash);
+
                         newUser.Username = username;
-                        newUser.Password = newUser.generateHash(password);
-                        newUser.Name = name;
-                        newUser.Email = email
+                        newUser.Password = hash;
+                        newUser.Name = req.body.name;
+                        newUser.Email = req.body.email;
 
                         // save the user
                         newUser.save(function(err) {
                             if (err)
                                 throw err;
+
+                            console.log('4');
                             return done(null, newUser);
                         });
                     }

@@ -1,9 +1,11 @@
 // load models
 var mongoose = require('mongoose');
 var Users = mongoose.model('User');
-var passport = require('passport');
 
-module.exports = function(app) {
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: true });
+
+module.exports = function(app, passport){
 
     app.get('/profile/login', function(req, res) {
 
@@ -18,9 +20,10 @@ module.exports = function(app) {
         failureFlash: true
     }));
 
-    app.get('/profile/register', function(req, res, next) {
+    app.get('/profile/register', function(req, res) {
         res.status(200).render('users/add.ejs', {
-            page: 'register'
+            page: 'register',
+            errorMessage: req.flash('registerMessage')
         });
     });
 

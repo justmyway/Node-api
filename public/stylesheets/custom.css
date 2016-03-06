@@ -1,3 +1,7 @@
-.background-red{
+.error{
 	background-color: Red;
+}
+
+.email-item{
+	color: #333;
 }
