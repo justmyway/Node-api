@@ -8,6 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
 var mongoose = require('mongoose');
+var flashify = require('flashify');
 var supertest = require("supertest");
 
 // App
@@ -47,6 +48,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flashify);
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 

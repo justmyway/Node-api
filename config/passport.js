@@ -46,7 +46,14 @@ module.exports = function(passport) {
 
                     // check to see if theres already a user with that email
                     if (user) {
-                        return done(null, false, req.flash('registerMessage', 'Er is al iemand met die gebruikersnaam.'));
+                        // return done(null, false, req.flash('errorMessage', 'Er is al iemand met die gebruikersnaam.'));
+                        // return done(null, false, { 'error': 'Er is al iemand met die gebruikersnaam.' });
+                        req.flash('error2', 'error2');
+                        req.session.sessionFlash = {
+                            type: 'error',
+                            message: 'Er is al iemand met die gebruikersnaam.'
+                        }
+                        return done(null, false, req);
                     } else {
                         console.log('3');
 

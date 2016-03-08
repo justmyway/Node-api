@@ -19,7 +19,10 @@
                     </div>
                     <div class="email-content-body">
                         <% if (typeof errorMessage !== 'undefined') { %>
-                            <p class="error"><%= errorMessage %></p>
+                            <p class="error"><%= errorMessage.message %></p>
+                        <% } %>
+                        <% if (typeof error !== 'undefined') { %>
+                            <p class="error">error: <%= error.message %></p>
                         <% } %>
                         <form class="pure-form pure-form-aligned" action="/profile/register" method="post">
                             <fieldset>
