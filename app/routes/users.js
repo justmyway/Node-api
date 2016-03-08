@@ -20,10 +20,26 @@ module.exports = function(app, passport){
         failureFlash: true
     }));
 
+    // app.get('/profile/register', function(req, res) {
+    //     res.status(200).render('users/add.ejs', {
+    //         page: 'register'
+    //     });
+    // });
+
     app.get('/profile/register', function(req, res) {
+        console.log(req);
+        console.log(req.flash('error1'));
+        console.log(req.flash('error2'));
+        console.log(req.flash('error'));
+        console.log(req.flash());
+        console.log(res.flash('error1'));
+        console.log(res.flash('error2'));
+        console.log(res.flash('error'));
+        console.log(req.session.sessionFlash);
         res.status(200).render('users/add.ejs', {
             page: 'register',
-            errorMessage: req.flash('registerMessage')
+            errorMessage: res.locals.sessionFlash,
+            error: req.flash('error2')
         });
     });
 
