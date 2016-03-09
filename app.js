@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({
 
 //Authentication
 app.set('trust proxy', 1);
-app.use(cookieParser('secretString'));
+app.use(cookieParser('Mickey is een kei man'));
 app.use(session({
     cookie: {
         maxAge: 60000
@@ -49,7 +49,6 @@ app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
 app.use(express.static(path.join(__dirname, 'public')));
 

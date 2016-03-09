@@ -24,7 +24,6 @@
     "passport-local": "~0.1.6",
     "passport-oauth": "~1.0.0",
     "bcryptjs": "2.3.0",
-    "flashify": "0.1.2",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {
