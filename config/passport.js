@@ -46,14 +46,11 @@ module.exports = function(passport) {
 
                     // check to see if theres already a user with that email
                     if (user) {
-                        // return done(null, false, req.flash('errorMessage', 'Er is al iemand met die gebruikersnaam.'));
+                        return done(null, false, req.flash('errorMessage', 'Er is al iemand met die gebruikersnaam.'));
                         // return done(null, false, { 'error': 'Er is al iemand met die gebruikersnaam.' });
-                        req.flash('error2', 'error2');
-                        req.session.sessionFlash = {
-                            type: 'error',
-                            message: 'Er is al iemand met die gebruikersnaam.'
-                        }
-                        return done(null, false, req);
+                        // req.flash('error2', 'value error 2');
+
+                        // return done(null, false, req);
                     } else {
                         console.log('3');
 
@@ -61,7 +58,7 @@ module.exports = function(passport) {
                         // create the user
                         var newUser = new User();
 
-                        var salt = bcrypt.genSaltSync(4);
+                        var salt = bcrypt.genSaltSync(6);
                         console.log("salt: " + salt);
 
                         var hash = bcrypt.hashSync(password, salt);

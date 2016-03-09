@@ -36,20 +36,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use(cookieParser());
 
 //Authentication
 app.set('trust proxy', 1);
+app.use(cookieParser('secretString'));
 app.use(session({
-    secret: 'michaelsbuild',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: {
+        maxAge: 60000
+    }
 }));
+app.use(flash());
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flashify);
 app.use(flash());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Passport

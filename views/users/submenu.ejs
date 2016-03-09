@@ -1,6 +1,6 @@
 <!-- Sub menu -->
 <div id="list" class="pure-u-1">
-	<a href="<%= page == 'login' ? '#' : '/profile/login' %>">
+	<a href="<%= page == 'login' ? '' : '/profile/login' %>">
 	    <div class="email-item <%= page == 'login' ? 'email-item-selected' : '' %> pure-g">
 	        <div class="pure-u">
 	            <img class="email-avatar" height="64" width="64" src="/images/login.png">
@@ -16,7 +16,7 @@
 	    </div>
     </a>
 
-    <a href="<%= page == 'register' ? '#' : '/profile/register' %>">
+    <a href="<%= page == 'register' ? '' : '/profile/register' %>">
 	    <div class="email-item <%= page == 'register' ? 'email-item-selected' : '' %> pure-g">
 	        <div class="pure-u">
 	            <img class="email-avatar" height="64" width="64" src="/images/add.png">

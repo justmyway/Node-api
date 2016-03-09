@@ -3,9 +3,11 @@ var mongoose = require('mongoose');
 var Users = mongoose.model('User');
 
 var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: true });
+var urlencodedParser = bodyParser.urlencoded({
+    extended: true
+});
 
-module.exports = function(app, passport){
+module.exports = function(app, passport) {
 
     app.get('/profile/login', function(req, res) {
 
@@ -20,26 +22,10 @@ module.exports = function(app, passport){
         failureFlash: true
     }));
 
-    // app.get('/profile/register', function(req, res) {
-    //     res.status(200).render('users/add.ejs', {
-    //         page: 'register'
-    //     });
-    // });
-
     app.get('/profile/register', function(req, res) {
-        console.log(req);
-        console.log(req.flash('error1'));
-        console.log(req.flash('error2'));
-        console.log(req.flash('error'));
-        console.log(req.flash());
-        console.log(res.flash('error1'));
-        console.log(res.flash('error2'));
-        console.log(res.flash('error'));
-        console.log(req.session.sessionFlash);
-        res.status(200).render('users/add.ejs', {
+        res.status(200).render('users/register.ejs', {
             page: 'register',
-            errorMessage: res.locals.sessionFlash,
-            error: req.flash('error2')
+            error: req.flash('errorMessage')
         });
     });
 

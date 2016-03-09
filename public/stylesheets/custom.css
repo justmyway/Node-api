@@ -1,5 +1,17 @@
+.message{
+	color: white;
+	text-align: center;
+	border-radius: 20px;
+	font-weight: bold;
+	padding: 7px;
+}
+
 .error{
-	background-color: Red;
+	background-color: red;
+}
+
+.success{
+	background-color: green;
 }
 
 .email-item{
