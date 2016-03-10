@@ -18,10 +18,13 @@
         				</div>
         			</div>
 		        	<div class="email-content-body">
-			            <form class="pure-form pure-form-aligned" method="post">
+		        	 	<% if(error.length > 0) { %>
+                            <p class="message error"><%= error %></p>
+                        <% } %>
+			            <form class="pure-form pure-form-aligned" action="/profile/login" method="post">
 						    <fieldset>
 						        <input name="username" type="text" placeholder="Gebruikersnaam">
-						        <input name="password" type="password" placeholder="Password">
+						        <input name="password" type="password" placeholder="********">
 
 						        <label for="remember">
 						            <input name="remember" type="checkbox"> Onthoud mij

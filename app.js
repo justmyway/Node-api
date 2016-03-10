@@ -14,6 +14,8 @@ var supertest = require("supertest");
 // App
 var app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 //connect to DB
 var configDB = require('./config/database.js');
 /* istanbul ignore else: only test test database */
@@ -32,25 +34,29 @@ app.set('view engine', 'ejs');
 if (process.env.HOME != "test") {
     app.use(logger('dev'));
 }
+
+app.use(cookieParser('mciketisdabomb'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use(flash());
+
 //Authentication
 app.set('trust proxy', 1);
-app.use(cookieParser('Mickey is een kei man'));
 app.use(session({
+    secret: 'Mickaeltjeiseen kei',
+    resave: false,
+    saveUninitialized: true,
     cookie: {
-        maxAge: 60000
+        secure: true,
+        maxAge: 3600000
     }
 }));
-app.use(flash());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Passport
 require('./config/passport')(passport);
@@ -58,6 +64,9 @@ require('./config/passport')(passport);
 // Models
 require('./app/models/userModel');
 require('./app/models/routesModel');
+
+// Middleware
+require('./app/routes/middleware')(app);
 
 // Routes
 require('./app/routes/index')(app);
@@ -95,6 +104,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;

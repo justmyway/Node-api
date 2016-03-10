@@ -12,7 +12,8 @@ module.exports = function(app, passport) {
     app.get('/profile/login', function(req, res) {
 
         res.status(200).render('users/login.ejs', {
-            page: 'login'
+            page: 'login',
+            error: req.flash('loginMessage')
         });
     });
 
