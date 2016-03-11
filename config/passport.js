@@ -15,8 +15,8 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
+        console.log('deserialize passport');
         User.findById(id, function(err, user) {
-            console.log('deserialize passport');
             done(err, user);
         });
     });
@@ -94,6 +94,10 @@ module.exports = function(passport) {
                     return done(null, false, req.flash('loginMessage', 'Deze gebruiker is helaas niet gevonden')); // req.flash is the way to set flashdata using connect-flash
 
                 // if the user is found but the password is wrong
+                // req.login(user, function(err){
+                //     if (err) { return done(err); }
+                //     return done(null, user);
+                // });
                 bcrypt.compare(password, user.Password, function(err, res){
                     if(!res)
                         return done(null, false, req.flash('loginMessage', 'Het verkeerde wachtwoord is ingevoerd!'));

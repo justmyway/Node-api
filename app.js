@@ -35,7 +35,7 @@ if (process.env.HOME != "test") {
     app.use(logger('dev'));
 }
 
-app.use(cookieParser('mciketisdabomb'));
+app.use(cookieParser('Mickaeltjeiseen kei'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true

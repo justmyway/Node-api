@@ -38,6 +38,10 @@ module.exports = function(app, passport) {
 
     app.get('/profile', function(req, res) {
 
+        console.log('------ User ------');
+        console.log(req.user);
+        console.log('------ User ------');
+
         res.status(200).render('users/profile.ejs', {
             user: req.user
         });
