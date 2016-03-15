@@ -104,6 +104,8 @@ module.exports = function(passport) {
 
                     user.Password = undefined;
 
+                    req.session.user = user;
+
                     return done(null, user);
                 });
             });
