@@ -10,6 +10,7 @@ module.exports = function(passport) {
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
         console.log('serialize passport');
+        console.log('user.Username: ' + user.Username);
         done(null, user.id);
     });
 
@@ -17,6 +18,8 @@ module.exports = function(passport) {
     passport.deserializeUser(function(id, done) {
         console.log('deserialize passport');
         User.findById(id, function(err, user) {
+            console.log('user.id: ' + user.Username);
+            user.Password = undefined;
             done(err, user);
         });
     });
@@ -29,7 +32,6 @@ module.exports = function(passport) {
         function(req, username, password, done) {
 
             process.nextTick(function() {
-
                 User.findOne({
                     'Username': username
                 }, function(err, user) {
@@ -49,13 +51,13 @@ module.exports = function(passport) {
                         newUser.Email = req.body.email;
                         newUser.Meta.Created = new Date();
 
-                        if(!req.body.terms)
+                        if (!req.body.terms)
                             return done(null, false, req.flash('errorMessage', 'Accepteer de terms en condities'));
 
                         newUser.Terms.v1.accepted = true;
                         newUser.Terms.v1.date = new Date();
 
-                        if(newUser.validateSync())
+                        if (newUser.validateSync())
                             return done(null, false, req.flash('errorMessage', newUser.validateSync().toString()));
 
                         newUser.save(function(err) {
@@ -79,6 +81,7 @@ module.exports = function(passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
+            console.log('local-login');
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
@@ -98,13 +101,16 @@ module.exports = function(passport) {
                 //     if (err) { return done(err); }
                 //     return done(null, user);
                 // });
-                bcrypt.compare(password, user.Password, function(err, res){
-                    if(!res)
+                bcrypt.compare(password, user.Password, function(err, res) {
+                    if (!res)
                         return done(null, false, req.flash('loginMessage', 'Het verkeerde wachtwoord is ingevoerd!'));
 
                     user.Password = undefined;
 
-                    req.session.user = user;
+                    //add user to request
+                    // req.session.user = user;
+
+                    console.log('local-login, user.Password: ' + user.Password);
 
                     return done(null, user);
                 });

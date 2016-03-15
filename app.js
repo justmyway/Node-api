@@ -48,16 +48,11 @@ app.set('trust proxy', 1);
 app.use(session({
     secret: 'Mickaeltjeiseen kei',
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: true,
-        maxAge: 3600000
-    }
+    saveUninitialized: true
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 // Passport
 require('./config/passport')(passport);
 
