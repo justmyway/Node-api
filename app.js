@@ -53,15 +53,13 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 // Passport
 require('./config/passport')(passport);
 
 // Models
 require('./app/models/userModel');
 require('./app/models/routesModel');
-
-// Middleware
-require('./app/routes/middleware')(app);
 
 // Routes
 require('./app/routes/index')(app);

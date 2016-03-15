@@ -1,11 +1,15 @@
-// load models
-var mongoose = require('mongoose');
-var Users = mongoose.model('User');
-
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({
     extended: true
 });
+
+// Load models
+var mongoose = require('mongoose');
+var Users = mongoose.model('User');
+
+// Load middleware
+var authenticateMiddleware = require('../middleware/authenticated');
+
 
 module.exports = function(app, passport) {
 
@@ -36,10 +40,11 @@ module.exports = function(app, passport) {
         failureFlash: true
     }));
 
-    app.get('/profile', function(req, res) {
+    app.get('/profile', authenticateMiddleware.isAuthenticated, function(req, res) {
 
         console.log('------ User ------');
         console.log(req.user);
+        console.log(req.isAuthenticated());
         console.log('------ User ------');
 
         res.status(200).render('users/profile.ejs', {

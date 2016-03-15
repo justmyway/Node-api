@@ -41,6 +41,8 @@ var userSchema = mongoose.Schema({
     	}
     },
 
+    Roles: [String],
+
     Terms: {
     	v1: {
     		accepted: Boolean,
@@ -53,6 +55,14 @@ var userSchema = mongoose.Schema({
         LastVisited: Date
     }
 });
+
+userSchema.methods.hasAnyRole = function(roles){
+    if(this.Roles.containsAny(roles)){
+        return true;
+    }else{
+        return false;
+    }
+};
 
 mongoose.model('User', userSchema);
 
