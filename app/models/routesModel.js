@@ -35,3 +35,7 @@ var routesSchema = mongoose.Schema({
 });
 
 mongoose.model('Routes', routesSchema);
+
+Route = mongoose.model('Routes', routesSchema);
+
+module.exports.Route = Route;

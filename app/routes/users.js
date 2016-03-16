@@ -7,6 +7,8 @@ var urlencodedParser = bodyParser.urlencoded({
 var mongoose = require('mongoose');
 var Users = mongoose.model('User');
 
+var Routes = mongoose.model('Routes');
+
 // Load middleware
 var authenticateMiddleware = require('../middleware/authenticated');
 
@@ -48,7 +50,8 @@ module.exports = function(app, passport) {
         console.log('------ User ------');
 
         res.status(200).render('users/profile.ejs', {
-            user: req.user
+            user: req.user,
+            test: 'hello'
         });
     });
 };
