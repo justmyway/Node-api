@@ -1,17 +1,43 @@
 <!doctype html>
 <html>
 
-<head>
-    
-</head>
+    <% include ../partials/head %>
 
-<body>
-    <div class="container">
-        <h1>User</h1>
-        <div>
-           <p></p>
+    <body>
+        <div id="layout" class="content pure-g">
+
+            <% include ../partials/header %>
+
+            <% include submenu %>
+
+        	<div id="main" class="pure-u-1">
+        		<div class="email-content">
+        			<div class="email-content-header pure-g">
+        				<div class="pure-u-1">
+        					<h1 class="email-content-title">Inloggen</h1>
+        				</div>
+        			</div>
+		        	<div class="email-content-body">
+		        	 	<% if(locals.error) { %>
+                            <p class="message error"><%= error %></p>
+                        <% } %>
+			            <form class="pure-form pure-form-aligned" action="/profile/login" method="post">
+						    <fieldset>
+						        <input name="username" type="text" placeholder="Gebruikersnaam">
+						        <input name="password" type="password" placeholder="********">
+
+						        <label for="remember">
+						            <input name="remember" type="checkbox"> Onthoud mij
+						        </label>
+
+						        <button type="submit" class="pure-button pure-button-primary">Inloggen</button>
+						    </fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+
         </div>
-    </div>
-</body>
+    </body>
 
 </html>

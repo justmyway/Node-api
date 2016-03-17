@@ -10,11 +10,13 @@
             <div class="pure-menu">
                 <ul class="pure-menu-list">
                     <li class="pure-menu-item"><a href="/" class="pure-menu-link">Home</a></li>
-                    <% if (user) { %>
+                    <% if (locals.user) { %>
                         <li class="pure-menu-item"><a href="/profile/<%= user.Username %>" class="pure-menu-link">Profiel</a></li>
                     <% } else{ %>
                         <li class="pure-menu-item"><a href="/profile/login" class="pure-menu-link">Account</a></li>
                     <% } %>
+
+                    <%= locals.test %>
                 </ul>
             </div>
         </div>

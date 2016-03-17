@@ -50,8 +50,12 @@ module.exports = function(app, passport) {
         console.log('------ User ------');
 
         res.status(200).render('users/profile.ejs', {
+<<<<<<< HEAD
             user: undefined
+=======
+            user: req.user,
             test: 'hello'
+>>>>>>> 4972c80f6d2a1af00b32a97d6a44fd57d1ac86f3
         });
     });
 };
