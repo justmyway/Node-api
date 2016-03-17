@@ -48,7 +48,7 @@ module.exports = function(app, passport) {
         console.log('------ User ------');
 
         res.status(200).render('users/profile.ejs', {
-            user: req.user
+            user: undefined
         });
     });
 };
