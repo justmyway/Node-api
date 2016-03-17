@@ -56,7 +56,7 @@ module.exports = function(app, passport) {
                 throw err;
 
             res.status(200).render('users/profile.ejs', {
-                user: req.user,
+            user: req.user,
                 routes: climbedRoutes
             });
         });
