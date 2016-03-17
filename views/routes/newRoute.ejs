@@ -8,7 +8,7 @@
 
             <% include ../partials/header %>
 
-            <%# include submenu %>
+            <%# include routesList %>
 
             <div id="main" class="pure-u-1">
                 <div class="email-content">
@@ -27,29 +27,40 @@
                         <form class="pure-form pure-form-aligned" action="/routes" method="post">
                             <fieldset>
                                 <div class="pure-control-group">
-                                    <label for="username">Gebruikersnaam</label>
-                                    <input id="username" name="username" type="text" placeholder="Gebruikersnaam">
+                                    <label for="Name">Naam</label>
+                                    <input id="Name" name="Name" type="text" placeholder="La Dura Dura">
                                 </div>
 
                                 <div class="pure-control-group">
-                                    <label for="password">Wachtwoord</label>
-                                    <input id="password" name="password" type="password" placeholder="********">
+                                    <label>Buiten</label>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="Outdoor" class="onoffswitch-checkbox" id="outdooronoffswitch" checked>
+                                        <label class="onoffswitch-label" for="outdooronoffswitch"></label>
+                                    </div>
                                 </div>
 
                                 <div class="pure-control-group">
-                                    <label for="email">Email Address</label>
-                                    <input id="email" name="email" type="email" placeholder="example@website.com">
+                                    <label>Voorgeklommen</label>
+                                    <div class="onoffswitch">
+                                        <input type="checkbox" name="LeadClimbed" class="onoffswitch-checkbox" id="leadclimbedonoffswitch" checked>
+                                        <label class="onoffswitch-label" for="leadclimbedonoffswitch"></label>
+                                    </div>
                                 </div>
 
-                                <div class="pure-control-group">
-                                    <label for="name">Volledige naam</label>
-                                    <input id="name" name="name" type="text" placeholder="John Do">
+                                <legend>Voor binnen routes</legend>
+
+                                <div class="pure-control-group indoors">
+                                    <label for="Rope">Geklommen touw *</label>
+                                    <input id="Rope" name="Rope" type="text" placeholder="21">
+                                </div>
+
+                                <div class="pure-control-group indoors">
+                                    <label for="Color">kleur *</label>
+                                    <input id="Color" name="Color" type="text" placeholder="Appel groen">
                                 </div>
 
                                 <div class="pure-controls">
-                                    <label for="cb" class="pure-checkbox">
-                                        <input id="cb" name="terms" type="checkbox"> Ik heb de terms en condities gelezen, en ga accoord.
-                                    </label>
+                                    <label class="pure-checkbox">* Alleen voor routes binnen.</label>
 
                                     <button type="submit" class="pure-button pure-button-primary">Route opslaan</button>
                                 </div>
