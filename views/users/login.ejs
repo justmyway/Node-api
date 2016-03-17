@@ -18,7 +18,7 @@
         				</div>
         			</div>
 		        	<div class="email-content-body">
-		        	 	<% if(error.length > 0) { %>
+		        	 	<% if(locals.error) { %>
                             <p class="message error"><%= error %></p>
                         <% } %>
 			            <form class="pure-form pure-form-aligned" action="/profile/login" method="post">

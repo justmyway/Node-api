@@ -49,9 +49,16 @@ module.exports = function(app, passport) {
         console.log(req.isAuthenticated());
         console.log('------ User ------');
 
-        res.status(200).render('users/profile.ejs', {
-            user: req.user,
-            test: 'hello'
+        Routes.find({
+            Climber: req.user.Id
+        }).limit(10).exec(function(err, climbedRoutes) {
+            if (err)
+                throw err;
+
+            res.status(200).render('users/profile.ejs', {
+                user: req.user,
+                routes: climbedRoutes
+            });
         });
     });
 };
