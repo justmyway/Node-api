@@ -34,17 +34,3 @@
 .onoffswitch-checkbox:checked + .onoffswitch-label:before {
     right: 0px; 
 }
-
-.indoors {
-    display: none;
-}
-
-#outdooronoffswitch ~ .indoors {
-    display: block !important;
-    /*transition: all 0.3s ease-in 0s;*/
-}
-
-#outdooronoffswitch:checked ~ .indoors {
-    display: none !important;
-    /*transition: all 0.3s ease-in 0s;*/
-}
