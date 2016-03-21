@@ -18,8 +18,8 @@
                         </div>
                     </div>
                     <div class="email-content-body">
-                        <% if(error.length > 0) { %>
-                            <p class="message error"><%= error %></p>
+                        <% if(locals.error) { %>
+                            <p class="message error"><%= locals.error %></p>
                         <% } %>                  
                         <form class="pure-form pure-form-aligned" action="/profile/register" method="post">
                             <fieldset>

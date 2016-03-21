@@ -18,8 +18,9 @@
                         </div>
                     </div>
                     <div class="email-content-body">
-                        <% if(locals.error) { %>
+                        <% if(locals.error.Length > 0) { %>
                             <p class="message error"><%= locals.error %></p>
+                            <p class="message error"><%= locals.errorDetails %></p>
                         <% } %>
                         <% if(locals.success) { %>
                             <p class="message success"><%= locals.success %></p>
@@ -29,6 +30,11 @@
                                 <div class="pure-control-group">
                                     <label for="Name">Naam</label>
                                     <input id="Name" name="Name" type="text" placeholder="La Dura Dura">
+                                </div>
+
+                                <div class="pure-control-group">
+                                    <label for="Grade">Niveau</label>
+                                    <input id="Grade" name="Grade" type="text" placeholder="6a">
                                 </div>
 
                                 <div class="pure-control-group">

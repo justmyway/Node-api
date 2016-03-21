@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
 var routesSchema = mongoose.Schema({
-    Id: String,
+    _id: { 
+        type: mongoose.Schema.ObjectId,
+        auto: true
+    },
     Climber: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
@@ -23,7 +26,8 @@ var routesSchema = mongoose.Schema({
 
     Grade: {
         France: String,
-        German: String
+        German: String,
+        Usa: String
     },
 
     Meta: {

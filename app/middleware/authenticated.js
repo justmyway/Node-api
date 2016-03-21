@@ -2,13 +2,17 @@ module.exports = {
 
     isAuthenticated: function(req, res, next) {
         if (!req.isAuthenticated()) {
-            console.log('check isAuthenticated: false');
-            res.redirect('profile/login');
+            res.redirect('/profile/login');
         } else {
-            console.log('check isAuthenticated: false');
             return next();
         }
+    },
 
-
+    notAuthenticated: function(req, res, next){
+    	if(!req.isAuthenticated()){
+    		return next();
+    	}else{
+    		res.redirect('/profile');
+    	}
     }
 };

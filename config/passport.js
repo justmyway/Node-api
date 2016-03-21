@@ -14,11 +14,7 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
-            user.Password = undefined;
-            user.Roles = undefined;
-            user.Terms = undefined;
-            user.Meta = undefined;
+        User.findById(id, 'Username Name Roles').exec(function(err, user){
             done(err, user);
         });
     });
@@ -80,16 +76,15 @@ module.exports = function(passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
-            // find a user whose email is the same as the forms email
-            // we are checking to see if the user trying to login already exists
-            User.findOne({
-                'Username': username
-            }, function(err, user) {
-                // if there are any errors, return the error before anything else
-                if (err)
+            
+            var quser = User.findOne({'Username': username});
+
+            quser.select('Username Password Name Roles');
+
+            quser.exec(function (err, user){
+                if(err)
                     return done(err);
 
-                // if no user is found, return the message
                 if (!user)
                     return done(null, false, req.flash('loginMessage', 'Deze gebruiker is helaas niet gevonden')); // req.flash is the way to set flashdata using connect-flash
 
@@ -102,7 +97,6 @@ module.exports = function(passport) {
                     return done(null, user);
                 });
             });
-
         }));
 
 };

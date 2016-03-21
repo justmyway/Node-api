@@ -6,7 +6,6 @@ var urlencodedParser = bodyParser.urlencoded({
 // Load models
 var mongoose = require('mongoose');
 var Users = mongoose.model('User');
-
 var Routes = mongoose.model('Routes');
 
 // Load middleware
@@ -15,7 +14,7 @@ var authenticateMiddleware = require('../middleware/authenticated');
 
 module.exports = function(app, passport) {
 
-    app.get('/profile/login', function(req, res) {
+    app.get('/profile/login', authenticateMiddleware.notAuthenticated, function(req, res) {
 
         res.status(200).render('users/login.ejs', {
             page: 'login',
@@ -29,7 +28,7 @@ module.exports = function(app, passport) {
         failureFlash: true
     }));
 
-    app.get('/profile/register', function(req, res) {
+    app.get('/profile/register', authenticateMiddleware.notAuthenticated, function(req, res) {
         res.status(200).render('users/register.ejs', {
             page: 'register',
             error: req.flash('errorMessage')
@@ -43,11 +42,6 @@ module.exports = function(app, passport) {
     }));
 
     app.get('/profile', authenticateMiddleware.isAuthenticated, function(req, res) {
-
-        console.log('------ User ------');
-        console.log(req.user);
-        console.log(req.isAuthenticated());
-        console.log('------ User ------');
 
         Routes.find({
             Climber: req.user.Id
