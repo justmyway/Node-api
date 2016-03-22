@@ -8,7 +8,6 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
 var mongoose = require('mongoose');
-var supertest = require("supertest");
 
 // App
 var app = express();
