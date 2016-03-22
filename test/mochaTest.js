@@ -17,7 +17,7 @@ describe('Routing', function() {
     it('/routes', function(done) {
         api
             .get('/routes')
-            .expect('Content-Type', /html/)
+            .expect('Content-Type', /json/)
             .expect(200, done)
     });
 
@@ -27,20 +27,3 @@ describe('Routing', function() {
             .expect(404, done)
     });
 });
-
-/*describe('Database', function() {
-    describe('#save()', function() {
-        it('save user to database', function(done) {
-            var collection = db.get('userlist');
-            var user = {
-                username: 'Michael',
-                fullname: 'Michael van de Ven',
-                email: 'Michael@gmail.com'
-            };
-            collection.insert(user, function(err, result) {
-                if (err) throw err;
-                done();
-            });
-        });
-    });
-});*/

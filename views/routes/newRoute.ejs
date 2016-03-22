@@ -22,7 +22,7 @@
                             <p class="message error"><%= locals.error %></p>
                             <p class="message error"><%= locals.errorDetails %></p>
                         <% } %>
-                        <% if(locals.success) { %>
+                        <% if(locals.success.Length > 0) { %>
                             <p class="message success"><%= locals.success %></p>
                         <% } %>                  
                         <form class="pure-form pure-form-aligned" action="/routes" method="post">
@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="pure-control-group">
-                                        <label for="Color">kleur *</label>
+                                        <label for="Color">Kleur *</label>
                                         <input id="Color" name="Color" type="text" placeholder="Appel groen">
                                     </div>
 

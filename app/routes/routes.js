@@ -16,7 +16,7 @@ module.exports = function(app) {
 
     app.get('/routes/new', authenticateMiddleware.isAuthenticated, function(req, res) {
         res.render('routes/newRoute.ejs', {
-            succes: req.flash('successMessage'),
+            success: req.flash('successMessage'),
             error: req.flash('errorMessage'),
             errorDetails: req.flash('errorDetails')
         });
@@ -33,8 +33,6 @@ module.exports = function(app) {
         newRoute.Rope = req.body.Rope;
         newRoute.Color = req.body.Color;
 
-        console.log(newRoute);
-
         // validate route
         if(newRoute.validateSync()){
             req.flash('errorMessage', 'De ingevoerde gegevens zijn incorrect:');
@@ -44,21 +42,23 @@ module.exports = function(app) {
 
         // save route
         newRoute.save(function(err) {
-            if (err){
+            if (err)
                 throw err;
-            }
 
-            req.flash('successMessage', 'Route is toegevoegd');
+            req.flash('successMessage', 'Route '+ newRoute.Name +' is toegevoegd');
             res.redirect('/routes/new');
         });
     });
 
-    // todo: add custom middle ware
     app.get('/routes/:id', function(req, res) {
+        Route.findById(req.params.id).exec(function(err, route) {
+            console.log(err);
+            console.log(route);
+            if (err){
+                req.flash('errorMessage', 'Route kon niet worden gevonden');
+                res.redirect('/routes');
+            }
 
-        Route.find({
-            'id': id
-        }, function(err, route) {
             res.status(200).send(route);
         });
     });
