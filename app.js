@@ -31,7 +31,8 @@ if (process.env.HOME == "test") {
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/images/favicon.ico'));
+console.log(__dirname + '\\public\\images\\favicon.ico');
+app.use(favicon(__dirname + '\\public\\images\\favicon.ico'));
 /* istanbul ignore if: the disabled logger */
 if (process.env.HOME != "test") {
     app.use(logger('dev'));

@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-    _id: mongoose.Schema.ObjectId,
+    _id: { 
+        type: mongoose.Schema.ObjectId,
+        auto: true
+    },
     Username: {
         type: String,
         required: true,
