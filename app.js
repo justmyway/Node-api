@@ -22,7 +22,11 @@ var configDB = require('./config/database.js');
 if (process.env.HOME == "test") {
     mongoose.connect(configDB.testurl);
 } else {
-    mongoose.connect(configDB.url);
+    if(process.env.db_url){
+        mongoose.connect(process.env.db_url);
+    }else{
+        mongoose.connect(configDB.url);
+    }    
 }
 
 // view engine setup
