@@ -1,25 +1,29 @@
 <!-- Routes list -->
 <div id="list" class="pure-u-1">
-	<% for(var i=0; i<routes.length; i++) { %>
-        <li>
-            <a href='supplies/<%= supplies[i] %>'>
-                <%= supplies[i] %>
-            </a>
-        </li>
-    <% } %>
-	<a href="<%= page == 'login' ? '' : '/profile/login' %>">
-	    <div class="email-item <%= page == 'login' ? 'email-item-selected' : '' %> pure-g">
-	        <div class="pure-u">
-	            <img class="email-avatar" height="64" width="64" src="/images/login.png">
-	        </div>
+	<% for(var i=0; i<locals.routes.length; i++) { %>
+		<a href="/routes/<%= locals.routes[i]._id %>">
+			<div class="email-item pure-g <% (locals.routes[i]._id === locals.route._id)? 'email-item-selected' : ''%>">
+	        	<div class="pure-u">
+		            <p class="email-avatar" height="64" width="64"><%= locals.routes[i].Grade.France %></p>
+		        </div>
 
-	        <div class="pure-u-3-4">
-	            <h5 class="email-name">Account</h5>
-	            <h4 class="email-subject">Inloggen</h4>
-	            <p class="email-desc">
-	                Inloggen kan hier. Als je een account hebt kan dit natuurlijk.
-	            </p>
-	        </div>
-	    </div>
-    </a>
+		        <div class="pure-u-3-4">
+		            <h5 class="email-name"><%= locals.routes[i].Location.City %>, <%= locals.routes[i].Location.Land %></h5>
+		            <h4 class="email-subject"><%= locals.routes[i].Name %></h4>
+		            <p class="email-desc">
+		            	<% if(locals.routes[i].Outdoor) { %>
+	                	Buiten
+	                <% } else { %>
+	                	Binnen
+	                <% } %>
+	                <% if(locals.routes[i].LeadClimbed) { %>
+	                	voorgeklommen
+	                <% } else { %>
+	                	getoproped
+	                <% } %>
+		            </p>
+		        </div>
+		    </div>
+        </a>
+    <% } %>
 </div>

@@ -18,11 +18,11 @@
                         </div>
                     </div>
                     <div class="email-content-body">
-                        <% if(locals.error.Length > 0) { %>
+                        <% if(locals.error.length > 0) { %>
                             <p class="message error"><%= locals.error %></p>
                             <p class="message error"><%= locals.errorDetails %></p>
                         <% } %>
-                        <% if(locals.success.Length > 0) { %>
+                        <% if(locals.success.length > 0) { %>
                             <p class="message success"><%= locals.success %></p>
                         <% } %>                  
                         <form class="pure-form pure-form-aligned" action="/routes" method="post">

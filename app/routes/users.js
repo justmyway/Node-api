@@ -44,14 +44,14 @@ module.exports = function(app, passport) {
     app.get('/profile', authenticateMiddleware.isAuthenticated, function(req, res) {
 
         Routes.find({
-            Climber: req.user.Id
-        }).limit(10).exec(function(err, climbedRoutes) {
+            Climber: req.user._id
+        }).exec(function(err, climbedRoutes) {
             if (err)
                 throw err;
 
-            res.status(200).render('users/profile.ejs', {
-            user: req.user,
-                routes: climbedRoutes
+            res.status(200).render('routes/routeDetail.ejs', {
+                routes: climbedRoutes,
+                route: climbedRoutes[0]
             });
         });
     });

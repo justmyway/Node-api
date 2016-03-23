@@ -12,28 +12,26 @@ var mongoose = require('mongoose');
 // App
 var app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 //connect to DB
 var configDB = require('./config/database.js');
 /* istanbul ignore else: only test test database */
 if (process.env.HOME == "test") {
     mongoose.connect(configDB.testurl);
+} else if (process.env.db_url) {
+    mongoose.connect(process.env.db_url);
 } else {
-    if(process.env.db_url){
-        mongoose.connect(process.env.db_url);
-    }else{
-        mongoose.connect(configDB.url);
-    }    
+    mongoose.connect(configDB.url);
 }
 
 // view engine setup
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-if(process.env.db_url){
+if (process.env.db_url) {
     app.use(favicon(__dirname + '/public/images/favicon.ico'));
-}else{
+} else {
     app.use(favicon(__dirname + '\\public\\images\\favicon.ico'));
 }
 /* istanbul ignore if: the disabled logger */
@@ -59,6 +57,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Middleware
+require('./app/middleware/middleware')(app);
 
 // Passport
 require('./config/passport')(passport);

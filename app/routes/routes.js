@@ -34,9 +34,9 @@ module.exports = function(app) {
         newRoute.Color = req.body.Color;
 
         // validate route
-        if(newRoute.validateSync()){
+        if (newRoute.validateSync()) {
             req.flash('errorMessage', 'De ingevoerde gegevens zijn incorrect:');
-            req.flash('errorDetails', newRoute.validateSync().toString()); 
+            req.flash('errorDetails', newRoute.validateSync().toString());
             res.redirect('/routes/new');
         }
 
@@ -45,16 +45,14 @@ module.exports = function(app) {
             if (err)
                 throw err;
 
-            req.flash('successMessage', 'Route '+ newRoute.Name +' is toegevoegd');
+            req.flash('successMessage', 'Route ' + newRoute.Name + ' is toegevoegd');
             res.redirect('/routes/new');
         });
     });
 
     app.get('/routes/:id', function(req, res) {
         Route.findById(req.params.id).exec(function(err, route) {
-            console.log(err);
-            console.log(route);
-            if (err){
+            if (err) {
                 req.flash('errorMessage', 'Route kon niet worden gevonden');
                 res.redirect('/routes');
             }

@@ -17,3 +17,29 @@
 .email-item{
 	color: #333;
 }
+
+.secondary-button{
+	font-size: 100%;
+	font-weight: bold !important;
+	color: white;
+}
+
+.change-button{
+	background-color: orange;
+}
+
+.change-button:hover{
+	background-color: white;
+	color: orange;
+	border-color: orange;
+}
+
+.delete-button{
+	background-color: red;
+}
+
+.delete-button:hover{
+	background-color: white;
+	color: red;
+	border-color: red;
+}

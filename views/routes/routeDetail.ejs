@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+    <% include ../partials/head %>
+
+    <body>
+        <div id="layout" class="content pure-g">
+
+            <% include ../partials/header %>
+
+            <% include routesList %>
+
+            <div id="main" class="pure-u-1">
+                <div class="email-content">
+                    <div class="email-content-header pure-g">
+                        <div class="pure-u-1-2">
+                            <h1 class="email-content-title">Route details</h1>
+                            <p class="email-content-subtile">Toegevoed op <%= locals.route.Meta.Created %></p>
+                        </div>
+                        <div class="email-content-controls pure-u-1-2">
+                            <button class="secondary-button change-button">Wijzigen</button>
+                            <button class="secondary-button delete-button">Verwijderen</button>        
+                        </div>
+
+                    </div>
+                    <div class="email-content-body">
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+
+</html>
