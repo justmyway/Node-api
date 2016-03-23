@@ -16,6 +16,8 @@
 	$(document).ready(function(){
 		$(".indoors").hide();
 
+		$('#remove-route').on('click', deleteRoute);
+
 		$("#outdooronoffswitch").click(function(){
 			
 			$(".indoors").toggle(150);
@@ -24,5 +26,28 @@
 			
 		});
 	});
+
+	function deleteRoute(event) {
+ 		
+ 		event.preventDefault();
+
+	    // Pop up a confirmation dialog
+	    var confirmation = confirm('Weet je zeker dat je deze route wil verwijderen?');
+
+	    if(confirmation === true){
+			$.ajax({
+	            type: 'DELETE',
+	            url: '/routes/' + $(this).attr('rel'),
+	            success : function(e) {
+				    alert('Verwijderd!');
+				},
+				error : function(e) {
+				    alert('Error (' + e.status + '): ' + e.responseText);
+				}
+	        });
+	    }else{
+	    	return false;
+	    }
+	};	
 	</script>
 </head>

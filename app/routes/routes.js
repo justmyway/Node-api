@@ -5,20 +5,15 @@ var Route = mongoose.model('Routes');
 // Load middleware
 var authenticateMiddleware = require('../middleware/authenticated');
 
+// Async
+var async = require('async');
+
 module.exports = function(app) {
 
     app.get('/routes', function(req, res) {
 
         Route.find({}, function(err, routes) {
             res.status(200).send(routes);
-        });
-    });
-
-    app.get('/routes/new', authenticateMiddleware.isAuthenticated, function(req, res) {
-        res.render('routes/newRoute.ejs', {
-            success: req.flash('successMessage'),
-            error: req.flash('errorMessage'),
-            errorDetails: req.flash('errorDetails')
         });
     });
 
@@ -50,14 +45,52 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/routes/:id', function(req, res) {
-        Route.findById(req.params.id).exec(function(err, route) {
+    app.get('/routes/new', authenticateMiddleware.isAuthenticated, function(req, res) {
+        res.render('routes/newRoute.ejs', {
+            success: req.flash('successMessage'),
+            error: req.flash('errorMessage'),
+            errorDetails: req.flash('errorDetails')
+        });
+    });
+
+    app.get('/routes/:id', authenticateMiddleware.isAuthenticated, function(req, res) {
+        async.parallel({
+                route: function(callback) {
+                    Route.findById(req.params.id, function(err, docs) {
+                        callback(err, docs);
+                    });
+                },
+                routes: function(callback) {
+                    Route.find({
+                        Climber: req.user._id
+                    }, function(err, docs) {
+                        callback(err, docs);
+                    });
+                },
+            },
+            function(err, out) {
+                if (err) {
+                    req.flash('errorMessage', 'Route kon niet worden gevonden');
+                    res.redirect('/routes');
+                }
+
+                res.status(200).render('routes/routeDetail.ejs', {
+                    routes: out.routes,
+                    route: out.route
+                });
+            }
+        );
+    });
+
+    app.delete('/routes/:id', authenticateMiddleware.mayTemperRoute, function(req, res) {
+        Route.findById(req.params.id).remove(function(err, out) {
             if (err) {
-                req.flash('errorMessage', 'Route kon niet worden gevonden');
-                res.redirect('/routes');
+                throw err;
+                res.status(500).send('Server faalt, probeer het later nog eens');
             }
 
-            res.status(200).send(route);
+            res.send('De route is verwijderd!')
+
         });
     });
 };

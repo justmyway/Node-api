@@ -43,3 +43,8 @@
 	color: red;
 	border-color: red;
 }
+
+p.email-avatar{
+	font-weight: bold;
+	font-size: 120%;
+}

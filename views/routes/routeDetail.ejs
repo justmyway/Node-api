@@ -18,8 +18,8 @@
                             <p class="email-content-subtile">Toegevoed op <%= locals.route.Meta.Created %></p>
                         </div>
                         <div class="email-content-controls pure-u-1-2">
-                            <button class="secondary-button change-button">Wijzigen</button>
-                            <button class="secondary-button delete-button">Verwijderen</button>        
+                            <button class="secondary-button change-button" rel="">Wijzigen</button>
+                            <button id="remove-route" class="secondary-button delete-button" rel="<%= locals.route._id %>">Verwijderen</button>        
                         </div>
 
                     </div>
