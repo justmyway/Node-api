@@ -2,7 +2,7 @@
 <div id="list" class="pure-u-1">
 	<% for(var i=0; i<locals.routes.length; i++) { %>
 		<a href="/routes/<%= locals.routes[i]._id %>">
-			<div class="email-item pure-g <% (locals.routes[i]._id === locals.route._id)? 'email-item-selected' : ''%>">
+			<div class="email-item pure-g <%= (String(locals.routes[i]._id) == String(locals.route._id))? 'email-item-unread email-item-selected' : ''%>">
 	        	<div class="pure-u">
 		            <p class="email-avatar" height="64" width="64"><%= locals.routes[i].Grade.France %></p>
 		        </div>

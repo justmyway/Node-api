@@ -28,6 +28,11 @@ module.exports = function(app, passport) {
         failureFlash: true
     }));
 
+    app.get('/profile/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+
     app.get('/profile/register', authenticateMiddleware.notAuthenticated, function(req, res) {
         res.status(200).render('users/register.ejs', {
             page: 'register',
