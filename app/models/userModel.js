@@ -43,7 +43,7 @@ var userSchema = mongoose.Schema({
         }
     },
 
-    Roles: [String],
+    Roles: [{type: String}],
 
     Terms: {
         v1: {

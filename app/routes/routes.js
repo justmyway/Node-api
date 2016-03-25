@@ -55,7 +55,7 @@ module.exports = function(app) {
 
     app.get('/routes/:id', authenticateMiddleware.isAuthenticated, function(req, res) {
         
-        https://maps.googleapis.com/maps/api/geocode/json?location=49.8208,6.3486&key=AIzaSyD6XPbtiBTAzA-iCGzq5OlYQ7U_k7fd3SY
+        //https://maps.googleapis.com/maps/api/geocode/json?location=49.8208,6.3486&key=AIzaSyD6XPbtiBTAzA-iCGzq5OlYQ7U_k7fd3SY
 
         async.parallel({
                 route: function(callback) {
