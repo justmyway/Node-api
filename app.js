@@ -12,6 +12,19 @@ var mongoose = require('mongoose');
 // App
 var app = express();
 
+// Models
+require('./app/models/userModel');
+require('./app/models/routesModel');
+
+// routes require
+// html
+var htmlPath = './app/routes/html/';
+var htmlIndex = require(htmlPath + 'index');
+var htmlRoutes = require(htmlPath + 'routes');
+
+//json
+var jsonPath = './app/routes/json/';
+
 app.use(express.static('public'));
 
 //connect to DB
@@ -64,20 +77,16 @@ require('./app/middleware/middleware')(app);
 // Passport
 require('./config/passport')(passport);
 
-// Models
-require('./app/models/userModel');
-require('./app/models/routesModel');
+
 
 // Routes
 // HTML
-var htmlPath = './app/routes/html/';
-require(htmlPath + 'index')(app);
+app.use('/', htmlIndex);
+app.use('/routes', htmlRoutes);
 
 // JSON
-var jsonPath = './app/routes/json/';
-
-require('./app/routes/users')(app, passport);
-require('./app/routes/routes')(app);
+// require('./app/routes/users')(app, passport);
+// require('./app/routes/routes')(app);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
