@@ -69,7 +69,13 @@ require('./app/models/userModel');
 require('./app/models/routesModel');
 
 // Routes
-require('./app/routes/index')(app);
+// HTML
+var htmlPath = './app/routes/html/';
+require(htmlPath + 'index')(app);
+
+// JSON
+var jsonPath = './app/routes/json/';
+
 require('./app/routes/users')(app, passport);
 require('./app/routes/routes')(app);
 

@@ -38,6 +38,7 @@
 			$.ajax({
 	            type: 'DELETE',
 	            url: '/routes/' + $(this).attr('rel'),
+	            contentType: 'application/json',
 	            success : function(e) {
 				    alert('Verwijderd!');
 				},
