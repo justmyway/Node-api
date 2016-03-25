@@ -10,7 +10,35 @@ var async = require('async');
 
 module.exports = function(app) {
 
+    /*app.get('/example/d', function(req, res, next) {
+        console.log('the response will be sent by the next function ...');
+        next();
+    }, function(req, res) {
+        res.send('Hello from D!');
+    });
+
+    app.get('/routes', function(req, res, next) {
+
+        console.log('routes - first');
+        next();
+    }, function(req, res) {
+
+        console.log('routes - second');
+
+        Route.find({}, function(err, routes) {
+            res.status(200).send(routes);
+        });
+    });*/
+
+    app.get('/routes', function(req, res, next) {
+
+        console.log('routes - first');
+        next();
+    });
+
     app.get('/routes', function(req, res) {
+
+        console.log('routes - second');
 
         Route.find({}, function(err, routes) {
             res.status(200).send(routes);
@@ -54,7 +82,7 @@ module.exports = function(app) {
     });
 
     app.get('/routes/:id', authenticateMiddleware.isAuthenticated, function(req, res) {
-        
+
         //https://maps.googleapis.com/maps/api/geocode/json?location=49.8208,6.3486&key=AIzaSyD6XPbtiBTAzA-iCGzq5OlYQ7U_k7fd3SY
 
         async.parallel({
@@ -86,14 +114,18 @@ module.exports = function(app) {
     });
 
     app.delete('/routes/:id', authenticateMiddleware.mayTemperRoute, function(req, res) {
-        Route.findById(req.params.id).remove(function(err, out) {
-            if (err) {
-                throw err;
-                res.status(500).send('Server faalt, probeer het later nog eens');
-            }
+        console.log(req.accepts());
+        console.log(req.headers["x-requested-with"]);
 
-            res.send('De route is verwijderd!')
+        // Route.findById(req.params.id).remove(function(err, out) {
+        //     if (err) {
+        //         throw err;
+        //         res.status(500).send('Server faalt, probeer het later nog eens');
+        //     }
 
-        });
+        //     res.send('De route is verwijderd!')
+
+        // });
+        res.send('De route is verwijderd!')
     });
 };
