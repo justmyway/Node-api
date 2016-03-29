@@ -2,21 +2,71 @@
 var express = require('express');
 var router = express.Router();
 
-// Load middleware
-var authenticateMiddleware = require('../../middleware/authenticated');
-
-// Load models
+// load models
 var mongoose = require('mongoose');
 var Route = mongoose.model('Routes');
+var User = mongoose.model('User')
+
+// Load middleware
+var jsonAuth = require('../../middleware/jsonAuthentication');
 
 // Async
 var async = require('async');
 
+//todo:
+//alle outheticatie bijwerken zodat hier geen rechten fouten in ontstaan
+
 router.route('/')
     .get(function(req, res) {
 
-        res.render('routes/routes', { extractScripts: false });
+        Route.find({}, function(err, routes) {
+            res.status(200).json(routes);
+        });
     })
+
+router.route('/:id')
+    //.get(jsonAuth.isAuthenticated, function(req, res) {
+    .get(function(req, res) {
+
+        //https://maps.googleapis.com/maps/api/geocode/json?location=49.8208,6.3486&key=AIzaSyD6XPbtiBTAzA-iCGzq5OlYQ7U_k7fd3SY
+
+        async.parallel({
+                route: function(callback) {
+                    Route.findById(req.params.id, function(err, docs) {
+                        callback(err, docs);
+                    });
+                },
+                /*routes: function(callback) {
+                    Route.find({
+                        Climber: req.user._id
+                    }, function(err, docs) {
+                        callback(err, docs);
+                    });
+                },*/
+            },
+            function(err, out) {
+                if (err)
+                    res.json(err);
+
+                res.json(out.route);
+            }
+        );
+    })
+    //.delete(isAuthenticated.mayTemperRoute, function(req, res) {
+    .delete(function(req, res) {
+
+        Route.findById(req.params.id).remove(function(err, out) {
+            if (err) {
+                throw err;
+                return res.status(500).send('Server faalt, probeer het later nog eens');
+            }
+
+            res.send('De route is verwijderd!')
+
+        });
+    });
+
+module.exports = router;
 
 // module.exports = function(app) {
 
@@ -109,5 +159,3 @@ router.route('/')
 //         res.send('De route is verwijderd!')
 //     });
 // };
-
-module.exports = router;

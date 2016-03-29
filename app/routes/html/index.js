@@ -6,15 +6,8 @@ var router = express.Router();
 var requestMiddleware = require('../../middleware/requestType');
 
 router.route('/')
-	.all(requestMiddleware.isHTMLRequest, function(req, res, next){
-		next();
-	})
-	.get(function(req, res, next) {
-
-		if(req.flash('htmlCall') == 'true')
-        	res.status(200).render('home/index.ejs');
-		
-		next();
+	.get(function(req, res) {
+		res.status(200).render('home/index');
     })
 
 module.exports = router;

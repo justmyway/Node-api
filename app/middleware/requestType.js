@@ -4,7 +4,6 @@ module.exports = {
         if (req.accepts().indexOf('text/html') > -1) {
             req.flash('htmlCall', 'true');
         }
-        console.log('temp');
         next();
     },
 

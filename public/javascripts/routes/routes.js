@@ -1,52 +1,81 @@
+//var routeListData = [];
+
 // DOM Ready =============================================================
 $(document).ready(function() {
 
-    //exit message
-    $('#message div a.close').on('click', closeMessage);
+    populateRouteList(true);
 
-    //switch
-    $(".indoors").hide();
+    // route link click
+    $('#list').on('click', 'a.route-list-item', showRouteInfo);
 
-    $("#outdooronoffswitch").click(function(){
-        
-        $(".indoors").toggle(150);
+    // // Add User button click
+    // $('#btnAddUser').on('click', addUser);
 
-        $(".indoors div input").val('');
-        
-    });
+    //  // Delete User link click
+    // $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 
 });
 
 // Functions =============================================================
 
-function closeMessage(event) {
+function populateRouteList(firstCall = false) {
 
-    $('#message').html('');
+    var listContent = '';
 
+    // jQuery AJAX call for JSON
+    $.getJSON( '/routes', function( data ) {
+
+        //routeListData = data;
+
+        $.each(data, function(){
+
+            listContent += '<a href="#" class="route-list-item" rel="' + this._id + '">';
+            listContent += '<div class="email-item pure-g">';
+            listContent += '<div class="pure-u"><p class="email-avatar" height="64" width="64">' + this.Grade.France + '</p></div>';
+            listContent += '<div class="pure-u-3-4">';
+            listContent += '<h5 class="email-name">';
+            if(this.Location){
+                listContent += this.Location.City + ', ' + this.Location.Land
+            }else{
+                listContent += 'Unkown location'
+            }
+            listContent += '</h5>';
+            listContent += '<h4 class="email-subject">' + this.Name + '</h4>';
+            listContent += '<p class="email-desc">';
+            listContent += ((this.Outdoor) ? 'Buiten' : 'Binnen' ) + ' ';
+            listContent += ((this.LeadClimbed) ? 'voorgeklommen' : 'getoproped' );
+            listContent += '</p></div></div></a>';
+        });
+
+        // Inject the whole content string into our existing HTML table
+        $('#list').html(listContent);
+
+        // Set first details if requested
+        if(firstCall) $('#list').find('a:first').click();
+    });
 };
 
-// // Show User Info
-// function showUserInfo(event) {
+// Show Route Info
+function showRouteInfo(event) {
 
-//     // Prevent Link from Firing
-//     event.preventDefault();
+    // Getting ready
+    $('.email-content-title').text('Data word opgehaald');
 
-//     // Retrieve username from link rel attribute
-//     var thisUserName = $(this).attr('rel');
+    // Select requested item
+    $('div.email-item').removeClass('email-item-selected email-item-unread');
+    $(this).find('div.email-item').addClass('email-item-selected email-item-unread');
 
-//     // Get Index of object based on id value
-//     var arrayPosition = userListData.map(function(arrayItem) { return arrayItem.username; }).indexOf(thisUserName);
+    // jQuery AJAX call for JSON
+    $.getJSON( '/routes/' + $(this).attr('rel'), function( data ) {
 
-//     // Get our User Object
-//     var thisUserObject = userListData[arrayPosition];
-
-//     //Populate Info Box
-//     $('#userInfoName').text(thisUserObject.fullname);
-//     $('#userInfoAge').text(thisUserObject.age);
-//     $('#userInfoGender').text(thisUserObject.gender);
-//     $('#userInfoLocation').text(thisUserObject.location);
-
-// };
+        $('.email-content-title').text('Route details');
+        $('.email-content-subtile').text('Toegevoegd op ' + data.Meta.Created);
+        $('#change-route').attr('rel', data._id);
+        $('#delete-route').attr('rel', data._id);
+    }).fail(function(err){
+        $('#message').html('<div class="error"><a href="#" onclick="closeMessage()">X</a><strong>Error ' + err.status + '</strong> ' + err.responseText + '</div>');
+    });
+};
 
 // // Add User
 // function addUser(event) {

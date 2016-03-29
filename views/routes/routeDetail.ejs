@@ -1,35 +1,23 @@
-<!doctype html>
-<html>
+<div id="main" class="pure-u-1">
+    
+    <div class="email-content">
+        <div class="email-content-header pure-g">
 
-    <% include ../partials/head %>
-
-    <body>
-        <div id="layout" class="content pure-g">
-
-            <% include ../partials/header %>
-
-            <% include routesList %>
-
-            <div id="main" class="pure-u-1">
-                <div class="email-content">
-                    <div class="email-content-header pure-g">
-                        <div class="pure-u-1-2">
-                            <h1 class="email-content-title">Route details</h1>
-                            <p class="email-content-subtile">Toegevoed op <%= locals.route.Meta.Created %></p>
-                        </div>
-                        <div class="email-content-controls pure-u-1-2">
-                            <button class="secondary-button change-button" rel="">Wijzigen</button>
-                            <button id="remove-route" class="secondary-button delete-button" rel="<%= locals.route._id %>">Verwijderen</button>        
-                        </div>
-
-                    </div>
-                    <div class="email-content-body">
-                        
-                    </div>
-                </div>
+            <div class="pure-u-1-2">
+                <h1 class="email-content-title">Data word opgehaald</h1>
+                <p class="email-content-subtile"></p>
+            </div>
+            <div class="email-content-controls pure-u-1-2">
+                <button id="change-route" class="secondary-button change-button" rel="">Wijzigen</button>
+                <button id="delete-route" class="secondary-button delete-button" rel="">Verwijderen</button>        
             </div>
 
         </div>
-    </body>
-
-</html>
+        <div class="email-content-body">
+        <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            
+        </div>
+    </div>
+</div>

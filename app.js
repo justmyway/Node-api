@@ -8,6 +8,7 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require('connect-flash');
 var mongoose = require('mongoose');
+var expressLayouts = require('express-ejs-layouts');
 
 // App
 var app = express();
@@ -21,9 +22,11 @@ require('./app/models/routesModel');
 var htmlPath = './app/routes/html/';
 var htmlIndex = require(htmlPath + 'index');
 var htmlRoutes = require(htmlPath + 'routes');
+var htmlUsers = require(htmlPath + 'users')(passport);
 
 //json
 var jsonPath = './app/routes/json/';
+var jsonRoutes = require(jsonPath + 'routes');
 
 app.use(express.static('public'));
 
@@ -40,6 +43,10 @@ if (process.env.HOME == "test") {
 
 // view engine setup
 app.set('view engine', 'ejs');
+app.set('layout', 'layouts/listDetailLayout')
+app.set("layout extractScripts", true)
+
+app.use(expressLayouts);
 
 // uncomment after placing your favicon in /public
 if (process.env.db_url) {
@@ -83,8 +90,10 @@ require('./config/passport')(passport);
 // HTML
 app.use('/', htmlIndex);
 app.use('/routes', htmlRoutes);
+app.use('/profile', htmlUsers);
 
 // JSON
+app.use('/api/routes', jsonRoutes);
 // require('./app/routes/users')(app, passport);
 // require('./app/routes/routes')(app);
 
