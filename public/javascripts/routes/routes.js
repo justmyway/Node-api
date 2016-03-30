@@ -77,7 +77,7 @@ function showRoute(event) {
 // Show Route Info
 function showRouteInfo(data) {
     $('.email-content-title').text('Route details "' + data.Name + '"');
-    $('.email-content-subtile').text('Toegevoegd op ' + data.Meta.Created);
+    $('.email-content-subtile').text('Geklommen door ' + data.ClimberName);
     $('#change-route').attr('rel', data._id);
     $('#delete-route').attr('rel', data._id);
 };

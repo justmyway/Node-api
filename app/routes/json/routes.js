@@ -75,19 +75,26 @@ router.route('/:id')
                         callback(err, docs);
                     });
                 },
-                /*routes: function(callback) {
-                    Route.find({
-                        Climber: req.user._id
-                    }, function(err, docs) {
+                climbers: function(callback) {
+                    User.find({}, "Name").lean().exec(function(err, docs) {
                         callback(err, docs);
                     });
-                },*/
+                },
             },
             function(err, out) {
                 if (err)
                     res.json(err);
 
-                res.json(out.route);
+                var theRoute = out.route.toObject();
+
+                for(var i = 0; i < out.climbers.length; i++){
+                    if(String(theRoute.Climber) == String(out.climbers[i]['_id'])){
+                        theRoute.ClimberName = String(out.climbers[i]['Name']);
+                        break;
+                    }
+                }
+
+                res.json(theRoute);
             }
         );
     })
@@ -101,8 +108,7 @@ router.route('/:id')
 
         });
     })
-    //.put(jsonAuth.mayTemperRoute, function(req, res) {
-        .put(function(req, res) {
+    .put(jsonAuth.mayTemperRoute, function(req, res) {
 
         console.log(req);
 

@@ -9,18 +9,10 @@ var authMiddleware = require('../../middleware/authenticated');
 var mongoose = require('mongoose');
 var Route = mongoose.model('Routes');
 
-// Async
-var async = require('async');
-
 router.route('/')
     .get(function(req, res) {
 
         res.render('routes/routes');
-    })
-
-router.route('/new')
-    .get(authMiddleware.isAuthenticated, function(req, res) {
-        res.render('routes/newRoute');
     })
 
 module.exports = router;

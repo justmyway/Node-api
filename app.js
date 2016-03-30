@@ -23,10 +23,12 @@ var htmlPath = './app/routes/html/';
 var htmlIndex = require(htmlPath + 'index');
 var htmlRoutes = require(htmlPath + 'routes');
 var htmlUsers = require(htmlPath + 'users')(passport);
+var htmlProfiles = require(htmlPath + 'profiles');
 
 //json
 var jsonPath = './app/routes/json/';
 var jsonRoutes = require(jsonPath + 'routes');
+var jsonProfiles = require(jsonPath + 'profiles');
 
 app.use(express.static('public'));
 
@@ -91,11 +93,13 @@ require('./config/passport')(passport);
 app.use('/', htmlIndex);
 app.use('/routes', htmlRoutes);
 app.use('/profile', htmlUsers);
+app.use('/users', htmlProfiles);
 
 // JSON
 app.use('/api/routes', jsonRoutes);
-// require('./app/routes/users')(app, passport);
-// require('./app/routes/routes')(app);
+app.use('/api/users', jsonProfiles);
+
+
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
