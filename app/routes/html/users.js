@@ -48,6 +48,19 @@ module.exports = function(passport){
             res.redirect('/');
         })
 
+    router.route('/register')
+        .get(authMiddleware.notAuthenticated, function(req, res) {
+            res.status(200).render('users/register.ejs', {
+                page: 'register',
+                error: req.flash('errorMessage')
+            });
+        })
+        .post(passport.authenticate('local-signup', {
+            successRedirect: '/profile/logout',
+            failureRedirect: '/profile/register',
+            failureFlash: true
+        }))
+
     return router;
 }
 

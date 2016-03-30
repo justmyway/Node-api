@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
 
 var userSchema = mongoose.Schema({
     _id: { 
@@ -58,13 +59,26 @@ var userSchema = mongoose.Schema({
     }
 });
 
+/*userSchema.pre("save", function(next, done){
+    var self = this;
+     mongoose.models["User"].findOne({Email : self.Email},function(err, user) {
+        if(err) {
+            done(err);
+        } else if(user) {
+            self.invalidate("Email","Email moet unique zijn");
+            done(new Error("Email must be unique"));
+        } else {
+            done();
+        }
+    });
+    next();
+});*/
+
 userSchema.methods.hasAnyRole = function(roles) {
-    if (this.Roles.containsAny(roles)) {
-        return true;
-    } else {
-        return false;
-    }
+    return this.Roles.indexOf(roles) > -1;
 };
+
+userSchema.plugin(uniqueValidator, { message: '{PATH} moet unique zijn.' });
 
 mongoose.model('User', userSchema);
 

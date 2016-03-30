@@ -1,84 +1,63 @@
-<!doctype html>
-<html>
+<div id="main" class="pure-u-1">
+    <div class="email-content">
+        <div class="email-content-header pure-g">
+            <div class="pure-u-1">
+                <h1 class="email-content-title">Nieuwe route toevoegen</h1>
+            </div>
+        </div>
+        <div class="email-content-body">             
+            <form id="add-route" action="/routes" class="pure-form pure-form-aligned">
+                <fieldset>
+                    <div class="pure-control-group">
+                        <label for="Name">Naam</label>
+                        <input id="Name" name="Name" type="text" placeholder="La Dura Dura">
+                    </div>
 
-    <% include ../partials/head %>
+                    <div class="pure-control-group">
+                        <label for="Grade">Niveau</label>
+                        <input id="Grade" name="Grade" type="text" placeholder="6a">
+                    </div>
 
-    <body>
-        <div id="layout" class="content pure-g">
-
-            <% include ../partials/header %>
-
-            <%# include routesList %>
-
-            <div id="main" class="pure-u-1">
-                <div class="email-content">
-                    <div class="email-content-header pure-g">
-                        <div class="pure-u-1">
-                            <h1 class="email-content-title">Nieuwe route toevoegen</h1>
+                    <div class="pure-control-group">
+                        <label>Buiten</label>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="Outdoor" class="onoffswitch-checkbox" id="outdooronoffswitch" checklabel="true" checked>
+                            <label class="onoffswitch-label" for="outdooronoffswitch"></label>
                         </div>
                     </div>
-                    <div class="email-content-body">
-                        <% if(locals.error.length > 0) { %>
-                            <p class="message error"><%= locals.error %></p>
-                            <p class="message error"><%= locals.errorDetails %></p>
-                        <% } %>
-                        <% if(locals.success.length > 0) { %>
-                            <p class="message success"><%= locals.success %></p>
-                        <% } %>                  
-                        <form class="pure-form pure-form-aligned" action="/routes" method="post">
-                            <fieldset>
-                                <div class="pure-control-group">
-                                    <label for="Name">Naam</label>
-                                    <input id="Name" name="Name" type="text" placeholder="La Dura Dura">
-                                </div>
 
-                                <div class="pure-control-group">
-                                    <label for="Grade">Niveau</label>
-                                    <input id="Grade" name="Grade" type="text" placeholder="6a">
-                                </div>
-
-                                <div class="pure-control-group">
-                                    <label>Buiten</label>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="Outdoor" class="onoffswitch-checkbox" id="outdooronoffswitch" checked>
-                                        <label class="onoffswitch-label" for="outdooronoffswitch"></label>
-                                    </div>
-                                </div>
-
-                                <div class="pure-control-group">
-                                    <label>Voorgeklommen</label>
-                                    <div class="onoffswitch">
-                                        <input type="checkbox" name="LeadClimbed" class="onoffswitch-checkbox" id="leadclimbedonoffswitch" checked>
-                                        <label class="onoffswitch-label" for="leadclimbedonoffswitch"></label>
-                                    </div>
-                                </div>
-
-                                <div class="indoors">
-
-                                    <div class="pure-control-group">
-                                        <label for="Rope">Geklommen touw *</label>
-                                        <input id="Rope" name="Rope" type="text" placeholder="21">
-                                    </div>
-
-                                    <div class="pure-control-group">
-                                        <label for="Color">Kleur *</label>
-                                        <input id="Color" name="Color" type="text" placeholder="Appel groen">
-                                    </div>
-
-                                </div>
-
-                                <div class="pure-controls">
-                                    <label class="pure-checkbox">* Alleen voor routes binnen.</label>
-
-                                    <button type="submit" class="pure-button pure-button-primary">Route opslaan</button>
-                                </div>
-                            </fieldset>
-                        </form>
+                    <div class="pure-control-group">
+                        <label>Voorgeklommen</label>
+                        <div class="onoffswitch">
+                            <input type="checkbox" name="LeadClimbed" class="onoffswitch-checkbox" id="leadclimbedonoffswitch" checklabel="true" checked>
+                            <label class="onoffswitch-label" for="leadclimbedonoffswitch"></label>
+                        </div>
                     </div>
-                </div>
-            </div>
 
+                    <div class="indoors">
+
+                        <div class="pure-control-group">
+                            <label for="Rope">Geklommen touw *</label>
+                            <input id="Rope" name="Rope" type="text" placeholder="21">
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label for="Color">Kleur *</label>
+                            <input id="Color" name="Color" type="text" placeholder="Appel groen">
+                        </div>
+
+                    </div>
+
+                    <div class="pure-controls">
+                        <label class="pure-checkbox">* Alleen voor routes binnen.</label>
+
+                        <button type="submit" class="pure-button pure-button-primary">Route opslaan</button>
+                    </div>
+                </fieldset>
+            </form>
         </div>
-    </body>
+    </div>
+</div>
 
-</html>
+<script src="/javascripts/routes/add.js" >
+</script>

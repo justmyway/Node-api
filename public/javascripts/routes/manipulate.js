@@ -23,7 +23,7 @@ function deleteRoute(event) {
     if(confirmation === true){
         $.ajax({
             type: 'DELETE',
-            url: '/routes/' + $(this).attr('rel'),
+            url: 'api/routes/' + $(this).attr('rel'),
             contentType: 'application/json',
             success : function(e) {
                 $('#message').html('<div class="success"><a href="#" onclick="closeMessage()">X</a><strong>Verwijderd</strong> de route is verwijderd.</div>');

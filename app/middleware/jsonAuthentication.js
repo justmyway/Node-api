@@ -1,6 +1,7 @@
 // load models
 var mongoose = require('mongoose');
 var Route = mongoose.model('Routes');
+var User = mongoose.model('User');
 
 module.exports = {
 
@@ -23,14 +24,21 @@ module.exports = {
     mayTemperRoute: function(req, res, next) {
         if (req.isAuthenticated()) {
 
-            if (req.user.Roles.length > 0 && req.user.Roles.contains("admin"))
+            console.log(req.user);
+            console.log(req.user.hasAnyRole());
+
+            if (req.user.hasAnyRole("admin"))
                 return next();
 
+            console.log('2');
             Route.findById(req.params.id, 'Climber').exec(function(err, route) {
                 if (err)
                     throw err;
 
+                console.log('3');
+
                 if (String(route.Climber) == String(req.user._id)) {
+                    console.log('4');
                     return next();
                 } else {
                     res.status(403).send('Je hebt geen rechten aanpassingen aan deze route te maken.');

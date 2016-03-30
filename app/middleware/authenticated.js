@@ -23,7 +23,7 @@ module.exports = {
     mayTemperRoute: function(req, res, next) {
         if (req.isAuthenticated()) {
 
-            if (req.user.Roles.length > 0 && req.user.Roles.contains("admin"))
+            if (req.user.hasAnyRole("admin"))
                 return next();
 
             Route.findById(req.params.id, 'Climber').exec(function(err, route) {

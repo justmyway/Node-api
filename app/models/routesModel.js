@@ -35,7 +35,8 @@ var routesSchema = mongoose.Schema({
             type: Date,
             default: Date.now
         },
-        LastVisited: Date
+        LastVisited: Date,
+        Modified: Date
     }
 });
 

@@ -14,7 +14,7 @@ module.exports = function(passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        User.findById(id, 'Username Name Roles').exec(function(err, user){
+        User.findById(id, '-Password -Email -Terms -Meta').exec(function(err, user){
             done(err, user);
         });
     });
@@ -26,7 +26,7 @@ module.exports = function(passport) {
         },
         function(req, username, password, done) {
 
-            process.nextTick(function() {
+            //process.nextTick(function() {
                 User.findOne({
                     'Username': username
                 }, function(err, user) {
@@ -45,6 +45,7 @@ module.exports = function(passport) {
                         newUser.Name = req.body.name;
                         newUser.Email = req.body.email;
                         newUser.Meta.Created = new Date();
+                        newUser.Roles = 'user'
 
                         if (!req.body.terms)
                             return done(null, false, req.flash('errorMessage', 'Accepteer de terms en condities'));
@@ -57,7 +58,7 @@ module.exports = function(passport) {
 
                         newUser.save(function(err) {
                             if (err)
-                                throw err;
+                                return done(null, false, req.flash('errorMessage', err.message + ', ' + err));
 
                             return done(null, newUser);
                         });
@@ -65,7 +66,7 @@ module.exports = function(passport) {
 
                 });
 
-            });
+            //});
 
         }));
 

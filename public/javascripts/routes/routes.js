@@ -1,19 +1,17 @@
 //var routeListData = [];
+var changeRoute;
 
 // DOM Ready =============================================================
 $(document).ready(function() {
 
+    changeRoute = false;
+
     populateRouteList(true);
 
     // route link click
-    $('#list').on('click', 'a.route-list-item', showRouteInfo);
+    $('#list').on('click', 'a.route-list-item', showRoute);
 
-    // // Add User button click
-    // $('#btnAddUser').on('click', addUser);
-
-    //  // Delete User link click
-    // $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
-
+    $('#change-route').on('click', flipChangeRoute);
 });
 
 // Functions =============================================================
@@ -55,8 +53,8 @@ function populateRouteList(firstCall = false) {
     });
 };
 
-// Show Route Info
-function showRouteInfo(event) {
+// Show Route
+function showRoute(event) {
 
     // Getting ready
     $('.email-content-title').text('Data word opgehaald');
@@ -68,106 +66,211 @@ function showRouteInfo(event) {
     // jQuery AJAX call for JSON
     $.getJSON( '/routes/' + $(this).attr('rel'), function( data ) {
 
-        $('.email-content-title').text('Route details');
-        $('.email-content-subtile').text('Toegevoegd op ' + data.Meta.Created);
-        $('#change-route').attr('rel', data._id);
-        $('#delete-route').attr('rel', data._id);
+        showRouteInfo(data);
+        showRouteDetails(data);
+
     }).fail(function(err){
         $('#message').html('<div class="error"><a href="#" onclick="closeMessage()">X</a><strong>Error ' + err.status + '</strong> ' + err.responseText + '</div>');
     });
 };
 
-// // Add User
-// function addUser(event) {
-//     event.preventDefault();
+// Show Route Info
+function showRouteInfo(data) {
+    $('.email-content-title').text('Route details "' + data.Name + '"');
+    $('.email-content-subtile').text('Toegevoegd op ' + data.Meta.Created);
+    $('#change-route').attr('rel', data._id);
+    $('#delete-route').attr('rel', data._id);
+};
 
-//     // Super basic validation - increase errorCount variable if any fields are blank
-//     var errorCount = 0;
-//     $('#addUser input').each(function(index, val) {
-//         if($(this).val() === '') { errorCount++; }
-//     });
+// Show Route Info
+function showRouteDetails(data){
+    if(!changeRoute){
+        var content = '';
+        content += '<div class="email-content-body">';         
+        content += '<form action="#" class="pure-form pure-form-aligned">';
+        content += '<fieldset>';
+        content += '<div class="pure-control-group">';
+        content += '<label for="Name">Naam</label>';
+        content += '<label id="Name"></label>';
+        content += '</div>';
+        content += '<div class="pure-control-group">';
+        content += '<label for="Grade">Niveau</label>';
+        content += '<label id="Grade"></label>';
+        content += '</div>';
 
-//     // Check and make sure errorCount's still at zero
-//     if(errorCount === 0) {
+        content += '<div class="pure-control-group">';
+        content += '<label>Buiten</label>';
+        content += '<div class="onoffswitch">';
+        content += '<input type="checkbox" name="Outdoor" class="onoffswitch-checkbox" id="outdooronoffswitch" checklabel="' + data.Outdoor + '" ' + ((data.Outdoor) ? 'checked' : '') +'>';
+        content += '<label class="onoffswitch-label" for="outdooronoffswitch"></label>';
+        content += '</div>';
+        content += '</div>';
 
-//         // If it is, compile all user info into one object
-//         var newUser = {
-//             'username': $('#addUser fieldset input#inputUserName').val(),
-//             'email': $('#addUser fieldset input#inputUserEmail').val(),
-//             'fullname': $('#addUser fieldset input#inputUserFullname').val(),
-//             'age': $('#addUser fieldset input#inputUserAge').val(),
-//             'location': $('#addUser fieldset input#inputUserLocation').val(),
-//             'gender': $('#addUser fieldset input#inputUserGender').val()
-//         }
+        content += '<div class="pure-control-group">';
+        content += '<label>Voorgeklommen</label>';
+        content += '<div class="onoffswitch">';
+        content += '<input type="checkbox" name="LeadClimbed" class="onoffswitch-checkbox" id="leadclimbedonoffswitch" checklabel="' + data.LeadClimbed + '" ' + ((data.LeadClimbed) ? 'checked' : '') +'>';
+        content += '<label class="onoffswitch-label" for="leadclimbedonoffswitch"></label>';
+        content += '</div>';
+        content += '</div>';
 
-//         // Use AJAX to post the object to our adduser service
-//         $.ajax({
-//             type: 'POST',
-//             data: newUser,
-//             url: '/users/adduser',
-//             dataType: 'JSON'
-//         }).done(function( response ) {
+        content += '<div class="indoors">';
 
-//             // Check for successful (blank) response
-//             if (response.msg === '') {
+        if(!data.Outdoor){
 
-//                 // Clear the form inputs
-//                 $('#addUser fieldset input').val('');
+            content += '<div class="pure-control-group">';
+            content += '<label for="Rope">Geklommen touw</label>';
+            content += '<label id="Rope"></label>';
+            content += '</div>';
 
-//                 // Update the table
-//                 populateTable();
+            content += '<div class="pure-control-group">';
+            content += '<label for="Color">Kleur</label>';
+            content += '<label id="Color"></label>';
+            content += '</div>';
 
-//             }
-//             else {
+        }
 
-//                 // If something goes wrong, alert the error message that our service returned
-//                 alert('Error: ' + response.msg);
+        content += '</div>';
+        content += '</fieldset>';
+        content += '</form>';
+        content += '</div>';
+        
+        $('.email-content-body').html(content);
 
-//             }
-//         });
-//     }
-//     else {
-//         // If errorCount is more than 0, error out
-//         alert('Please fill in all fields');
-//         return false;
-//     }
-// };
+        $('#Name').text(data.Name);
+        $('#Grade').text(data.Grade.France);
+        $('#Rope').text(data.Rope);
+        $('#Color').text(data.Color);
+        ((data.Outdoor) ? $('#Outdoor').val('on'): $('#Outdoor').val(''));
+        ((data.LeadClimbed) ? $('#LeadClimbed').val('on'): $('#LeadClimbed').val(''));
 
-// // Delete User
-// function deleteUser(event) {
+    }else{
+        var content = '';
+        content += '<div class="email-content-body">';         
+        content += '<form id="add-route" action="/routes" class="pure-form pure-form-aligned">';
+        content += '<fieldset>';
+        content += '<div class="pure-control-group">';
+        content += '<label for="Name">Naam</label>';
+        content += '<input id="Name" name="Name" type="text" placeholder="La Dura Dura">';
+        content += '</div>';
+        content += '<div class="pure-control-group">';
+        content += '<label for="Grade">Niveau</label>';
+        content += '<input id="Grade" name="Grade" type="text" placeholder="6a">';
+        content += '</div>';
 
-//     event.preventDefault();
+        content += '<div class="pure-control-group">';
+        content += '<label>Buiten</label>';
+        content += '<div class="onoffswitch">';
+        content += '<input type="checkbox" name="Outdoor" class="onoffswitch-checkbox" id="outdooronoffswitch" checklabel="' + data.Outdoor + '" ' + ((data.Outdoor) ? 'checked' : '') +'>';
+        content += '<label class="onoffswitch-label" for="outdooronoffswitch"></label>';
+        content += '</div>';
+        content += '</div>';
 
-//     // Pop up a confirmation dialog
-//     var confirmation = confirm('Are you sure you want to delete this user?');
+        content += '<div class="pure-control-group">';
+        content += '<label>Voorgeklommen</label>';
+        content += '<div class="onoffswitch">';
+        content += '<input type="checkbox" name="LeadClimbed" class="onoffswitch-checkbox" id="leadclimbedonoffswitch" checklabel="' + data.LeadClimbed + '" ' + ((data.LeadClimbed) ? 'checked' : '') +'>';
+        content += '<label class="onoffswitch-label" for="leadclimbedonoffswitch"></label>';
+        content += '</div>';
+        content += '</div>';
 
-//     // Check and make sure the user confirmed
-//     if (confirmation === true) {
+        content += '<div class="indoors">';
 
-//         // If they did, do our delete
-//         $.ajax({
-//             type: 'DELETE',
-//             url: '/users/deleteuser/' + $(this).attr('rel')
-//         }).done(function( response ) {
+        content += '<div class="pure-control-group">';
+        content += '<label for="Rope">Geklommen touw *</label>';
+        content += '<input id="Rope" name="Rope" type="text" placeholder="21">';
+        content += '</div>';
 
-//             // Check for a successful (blank) response
-//             if (response.msg === '') {
-//             }
-//             else {
-//                 alert('Error: ' + response.msg);
-//             }
+        content += '<div class="pure-control-group">';
+        content += '<label for="Color">Kleur *</label>';
+        content += '<input id="Color" name="Color" type="text" placeholder="Appel groen">';
+        content += '</div>';
 
-//             // Update the table
-//             populateTable();
+        content += '</div>';
+        content += '<div class="pure-controls">';
+        content += '<label class="pure-checkbox">* Alleen voor routes binnen.</label>';
 
-//         });
+        content += '<button type="submit" class="pure-button pure-button-primary">Route aanpassen</button>';
+        content += '</div>';
+        content += '</fieldset>';
+        content += '</form>';
+        content += '</div>';
+        
+        $('.email-content-body').html(content);
 
-//     }
-//     else {
+        $('#Name').val(data.Name);
+        $('#Grade').val(data.Grade.France);
+        $('#Rope').val(data.Rope);
+        $('#Color').val(data.Color);
+        ((data.Outdoor) ? $('#Outdoor').val('on'): $('#Outdoor').val(''));
+        ((data.LeadClimbed) ? $('#LeadClimbed').val('on'): $('#LeadClimbed').val(''));
 
-//         // If they said no to the confirm, do nothing
-//         return false;
+        //switch
+        if(data.Outdoor)
+            $(".indoors").hide();
 
-//     }
+        $("#outdooronoffswitch").click(function(){
+            
+            $(".indoors").toggle(150);
 
-// };
+            $(".indoors div input").val('');
+            
+        });
+
+       $("input[type=checkbox]").on('click', function(){
+
+            $(this).attr('checklabel', ($(this).attr('checklabel') == 'true' ? false : true));
+        });
+
+        $('#add-route').submit(function(){
+
+            event.preventDefault();
+
+            var $form = $(this);
+            var data = {
+                Name: $form.find("input[name='Name']").val(),
+                Grade: $form.find("input[name='Grade']").val(),
+                Outdoor: $form.find("input[name='Outdoor']").attr('checklabel'),
+                LeadClimbed: $form.find("input[name='LeadClimbed']").attr('checklabel'),
+                Rope: $form.find("input[name='Rope']").val(),
+                Color: $form.find("input[name='Color']").val()
+            };
+
+            url = $form.attr('action') + '/' + $('#change-route').attr('rel');
+
+            $.ajax({
+                type: 'PUT',
+                url: '/api' + url,
+                data: data,
+                success : function(res){
+                    populateRouteList();
+                    $('#message').html('<div class="success"><a href="#" onclick="closeMessage()">X</a><strong>Opgeslagen</strong> ' + res + '</div>');
+                },
+                error : function(err){
+                    $('#message').html('<div class="error"><a href="#" onclick="closeMessage()">X</a><strong>Error ' + err.status + '</strong> ' + err.responseText + '</div>');
+                }
+            });
+        });
+    } 
+}
+
+function flipChangeRoute(){
+    ((changeRoute == true) ? changeRoute = false : changeRoute = true);
+
+    // Getting ready
+    $('.email-content-title').text('Data word opgehaald');
+
+    // Select requested item
+    $('div.email-item').removeClass('email-item-selected email-item-unread');
+    $(this).find('div.email-item').addClass('email-item-selected email-item-unread');
+
+    // jQuery AJAX call for JSON
+    $.getJSON( '/routes/' + $(this).attr('rel'), function( data ) {
+
+        showRouteInfo(data);
+        showRouteDetails(data);
+
+    }).fail(function(err){
+        $('#message').html('<div class="error"><a href="#" onclick="closeMessage()">X</a><strong>Error ' + err.status + '</strong> ' + err.responseText + '</div>');
+    });
+}

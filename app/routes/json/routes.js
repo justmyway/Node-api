@@ -23,8 +23,47 @@ router.route('/')
             res.status(200).json(routes);
         });
     })
+    .post(jsonAuth.isAuthenticated, function(req, res) {
+
+        var newRoute = new Route();
+        newRoute.Climber = req.user._id;
+        newRoute.Name = req.body.Name;
+        newRoute.Grade.France = req.body.Grade;
+        newRoute.LeadClimbed = req.body.LeadClimbed;
+        newRoute.Outdoor = req.body.Outdoor;
+        newRoute.Rope = req.body.Rope;
+        newRoute.Color = req.body.Color;
+
+        // validate route
+        if (newRoute.validateSync())
+            res.status(406).send('Gegevens incorrect:' + newRoute.validateSync().toString());
+
+        // save route
+        newRoute.save(function(err) {
+            if (err)
+                res.status(500).send(err);
+
+            res.status(201).send('Route "' + newRoute.Name + '" is toegevoegd.');
+        });
+    })
 
 router.route('/:id')
+    .all(function(req, res, next) {
+        Route.findById(req.params.id, function(err, out) {
+            if (err)
+                return res.status(500).send('Server faalt, probeer het later nog eens');
+
+            out.Meta.LastVisited = new Date();
+
+            // save route
+            out.save(function(err) {
+                if (err)
+                    res.status(500).send(err);
+
+                next();
+            });
+        });
+    })
     //.get(jsonAuth.isAuthenticated, function(req, res) {
     .get(function(req, res) {
 
@@ -52,16 +91,45 @@ router.route('/:id')
             }
         );
     })
-    //.delete(isAuthenticated.mayTemperRoute, function(req, res) {
-    .delete(function(req, res) {
+    .delete(jsonAuth.mayTemperRoute, function(req, res) {
 
         Route.findById(req.params.id).remove(function(err, out) {
-            if (err) {
-                throw err;
+            if (err)
                 return res.status(500).send('Server faalt, probeer het later nog eens');
-            }
 
-            res.send('De route is verwijderd!')
+            res.status(200).send('De route is verwijderd!')
+
+        });
+    })
+    //.put(jsonAuth.mayTemperRoute, function(req, res) {
+        .put(function(req, res) {
+
+        console.log(req);
+
+        Route.findById(req.params.id, function(err, out) {
+            if (err)
+                return res.status(500).send('Server faalt, probeer het later nog eens');
+
+            out.Name = req.body.Name;
+            out.Grade.France = req.body.Grade;
+            out.LeadClimbed = req.body.LeadClimbed;
+            out.Outdoor = req.body.Outdoor;
+            out.Rope = req.body.Rope;
+            out.Color = req.body.Color;
+            out.Meta.LastVisited = new Date();
+            out.Meta.Modified = new Date();
+
+            // validate route
+            if (out.validateSync())
+                res.status(406).send('Gegevens incorrect:' + out.validateSync().toString());
+
+            // save route
+            out.save(function(err) {
+                if (err)
+                    res.status(500).send(err);
+
+                res.status(201).send('De route is aangepast!');
+            });
 
         });
     });

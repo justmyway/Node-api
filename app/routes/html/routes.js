@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 // Load middleware
-var authenticateMiddleware = require('../../middleware/authenticated');
+var authMiddleware = require('../../middleware/authenticated');
 
 // Load models
 var mongoose = require('mongoose');
@@ -15,8 +15,21 @@ var async = require('async');
 router.route('/')
     .get(function(req, res) {
 
-        res.render('routes/routes', { extractScripts: false });
+        res.render('routes/routes');
     })
+
+router.route('/new')
+	.get(authMiddleware.isAuthenticated, function(req, res) {
+        res.render('routes/newRoute');
+    })
+
+	// .get(authMiddleware.isAuthenticated, function(req, res) {
+ //        res.render('routes/newRoute.ejs', {
+ //            success: req.flash('successMessage'),
+ //            error: req.flash('errorMessage'),
+ //            errorDetails: req.flash('errorDetails')
+ //        });
+ //    });
 
 // module.exports = function(app) {
 
