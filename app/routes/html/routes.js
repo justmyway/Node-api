@@ -23,4 +23,10 @@ router.route('/new')
         res.render('routes/newRoute');
     })
 
+router.route('/:id')
+    .get(function(req, res) {
+
+        res.render('routes/routes');
+    })
+
 module.exports = router;

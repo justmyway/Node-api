@@ -77,3 +77,8 @@ p.email-avatar{
 #list a div:hover{
 	background: #eee;
 }
+
+.pure-button-red{
+	background-color: red;
+	color: #fff;
+}

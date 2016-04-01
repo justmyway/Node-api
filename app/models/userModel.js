@@ -46,6 +46,25 @@ var userSchema = mongoose.Schema({
 
     Roles: [{type: String}],
 
+    Facebook: {
+        Id: String,
+        Token: String,
+        Name: String
+    },
+
+    Google: {
+        Id: String,
+        Token: String,
+        Name: String,
+        Email: String,
+        Gender: String
+    },
+
+    Facebook: {
+        Id: String,
+        Name: String
+    },
+
     Terms: {
         v1: {
             accepted: Boolean,

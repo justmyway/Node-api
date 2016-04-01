@@ -2,6 +2,10 @@
 var express = require('express');
 var router = express.Router();
 
+// Load socket.io
+// var http = require('http').Server(express);
+// var io = require('socket.io')(http);
+
 // Load middleware
 var authMiddleware = require('../../middleware/authenticated');
 
@@ -10,13 +14,13 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Routes');
 
 router.route('/')
-	.all(authMiddleware, function(req, res, next) {
-
+	//.all(authMiddleware.isAdmin, function(req, res, next) {
+	.all(function(req, res, next) {
         next();
     })
     .get(function(req, res) {
 
-        res.render('users/users');
+        res.render('users/users', { layout: 'layouts/overviewLayout' });
     })
 
 module.exports = router;

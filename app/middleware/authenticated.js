@@ -20,6 +20,14 @@ module.exports = {
         }
     },
 
+    isAdmin: function(req, res, next) {
+        if(req.user.hasAnyRole('admin')){
+            return next();
+        }else{
+            return res.status(403).redirect('/profile');
+        }
+    },
+
     mayTemperRoute: function(req, res, next) {
         if (req.isAuthenticated()) {
 

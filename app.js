@@ -1,4 +1,5 @@
-var express = require('express');
+//var express = require('express');
+var express = require('express.io');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -12,6 +13,7 @@ var expressLayouts = require('express-ejs-layouts');
 
 // App
 var app = express();
+app.http().io();
 
 // Models
 require('./app/models/userModel');
@@ -24,11 +26,13 @@ var htmlIndex = require(htmlPath + 'index');
 var htmlRoutes = require(htmlPath + 'routes');
 var htmlUsers = require(htmlPath + 'users')(passport);
 var htmlProfiles = require(htmlPath + 'profiles');
+var htmlAuth = require(htmlPath + 'auth')(passport);
 
 //json
 var jsonPath = './app/routes/json/';
 var jsonRoutes = require(jsonPath + 'routes');
 var jsonProfiles = require(jsonPath + 'profiles');
+var jsonAuth = require(jsonPath + 'auth')(passport);
 
 app.use(express.static('public'));
 
@@ -94,10 +98,12 @@ app.use('/', htmlIndex);
 app.use('/routes', htmlRoutes);
 app.use('/profile', htmlUsers);
 app.use('/users', htmlProfiles);
+app.use('/auth', htmlAuth);
 
 // JSON
 app.use('/api/routes', jsonRoutes);
 app.use('/api/users', jsonProfiles);
+app.use('/api/auth', jsonAuth);
 
 
 

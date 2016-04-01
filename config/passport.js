@@ -1,5 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
 var OAuthStrategy = require('passport-oauth').OAuthStrategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+var secretVariables = require('../config/oauth_secrets');
 
 var User = require('../app/models/userModel').User;
 
@@ -26,7 +30,7 @@ module.exports = function(passport) {
         },
         function(req, username, password, done) {
 
-            //process.nextTick(function() {
+            process.nextTick(function() {
                 User.findOne({
                     'Username': username
                 }, function(err, user) {
@@ -36,37 +40,69 @@ module.exports = function(passport) {
                     if (user) {
                         return done(null, false, req.flash('errorMessage', 'Er is al iemand met die gebruikersnaam'));
                     } else {
-                        var newUser = new User();
+                        User.findOne({
+                            'Email': req.body.email
+                        }, function(err, existingUser) {
 
-                        var hash = bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+                            if(existingUser){
 
-                        newUser.Username = username;
-                        newUser.Password = hash;
-                        newUser.Name = req.body.name;
-                        newUser.Email = req.body.email;
-                        newUser.Meta.Created = new Date();
-                        newUser.Roles = 'user'
+                                var hash = bcrypt.hashSync(password, bcrypt.genSaltSync(9));
 
-                        if (!req.body.terms)
-                            return done(null, false, req.flash('errorMessage', 'Accepteer de terms en condities'));
+                                existingUser.Username = username;
+                                existingUser.Password = hash;
+                                existingUser.Meta.Created = new Date();
+                                existingUser.Roles = 'user';
 
-                        newUser.Terms.v1.accepted = true;
-                        newUser.Terms.v1.date = new Date();
+                                if (!req.body.terms)
+                                    return done(null, false, req.flash('errorMessage', 'Accepteer de terms en condities'));
 
-                        if (newUser.validateSync())
-                            return done(null, false, req.flash('errorMessage', newUser.validateSync().toString()));
+                                existingUser.Terms.v1.accepted = true;
+                                existingUser.Terms.v1.date = new Date();
 
-                        newUser.save(function(err) {
-                            if (err)
-                                return done(null, false, req.flash('errorMessage', err.message + ', ' + err));
+                                if (existingUser.validateSync())
+                                    return done(null, false, req.flash('errorMessage', newUser.validateSync().toString()));
 
-                            return done(null, newUser);
+                                existingUser.save(function(err) {
+                                    if (err)
+                                        return done(null, false, req.flash('errorMessage', err.message + ', ' + err));
+
+                                    return done(null, existingUser);
+                                });
+
+                            }else{
+                                var newUser = new User();
+
+                                var hash = bcrypt.hashSync(password, bcrypt.genSaltSync(9));
+
+                                newUser.Username = username;
+                                newUser.Password = hash;
+                                newUser.Name = req.body.name;
+                                newUser.Email = req.body.email;
+                                newUser.Meta.Created = new Date();
+                                newUser.Roles = 'user';
+
+                                if (!req.body.terms)
+                                    return done(null, false, req.flash('errorMessage', 'Accepteer de terms en condities'));
+
+                                newUser.Terms.v1.accepted = true;
+                                newUser.Terms.v1.date = new Date();
+
+                                if (newUser.validateSync())
+                                    return done(null, false, req.flash('errorMessage', newUser.validateSync().toString()));
+
+                                newUser.save(function(err) {
+                                    if (err)
+                                        return done(null, false, req.flash('errorMessage', err.message + ', ' + err));
+
+                                    return done(null, newUser);
+                                });
+                            }
                         });
                     }
 
                 });
 
-            //});
+            });
 
         }));
 
@@ -98,6 +134,128 @@ module.exports = function(passport) {
                     return done(null, user);
                 });
             });
-        }));
+        }
+    ));
+
+    passport.use('facebook-login', new FacebookStrategy({
+            clientID: secretVariables.facebook.client_id,
+            clientSecret: secretVariables.facebook.client_secret,
+            callbackURL: ((process.env.callback_facebook) ? process.env.callback_facebook : secretVariables.facebook.callbackURL),
+            profileFields: ['id', 'name', 'emails']
+        },
+        function(accessToken, refreshToken, profile, done){
+            process.nextTick(function() {
+                User.findOne({
+                    'Email': String(profile.emails[0].value)
+                }, function(err, user) {
+                    if (err)
+                        return done(err);
+
+                    if (user) {
+                        user.Name = profile.name.givenName + ' ' + profile.name.familyName;
+                        user.Facebook.Name = profile.name.givenName + ' ' + profile.name.familyName;
+                        user.Facebook.Id = String(profile.id);
+
+                        user.save(function(err) {
+                            if(err) 
+                                throw err;
+                            
+                            return done(null, user);
+                        });
+                    } else {
+                        var newUser = new User();
+
+                        newUser.Name = profile.name.givenName + ' ' + profile.name.familyName;
+                        newUser.Facebook.Name = profile.name.givenName + ' ' + profile.name.familyName;
+                        newUser.Facebook.Id = String(profile.id);
+                        newUser.Username = 'fb' + profile.id;
+                        newUser.Password = 'none';
+                        newUser.Email = String(profile.emails[0].value);
+                        newUser.Meta.Created = new Date();
+                        newUser.Roles = 'user';
+
+                        newUser.Terms.v1.accepted = true;
+                        newUser.Terms.v1.date = new Date();
+
+                        if (newUser.validateSync())
+                            return done(newUser.validateSync().toString());
+
+
+                        newUser.save(function(err) {
+                            if (err)
+                                throw err;
+
+                            return done(null, newUser);
+                        });
+                    }
+
+                });
+
+            });
+        }
+    ));
+
+    passport.use('google-login', new GoogleStrategy({
+            clientID: secretVariables.google.client_id,
+            clientSecret: secretVariables.google.client_secret,
+            callbackURL: ((process.env.callback_google) ? process.env.callback_google : secretVariables.google.callbackURL)
+        },
+        function(accessToken, refreshToken, profile, done){
+            process.nextTick(function() {
+                User.findOne({
+                    'Email': String(profile.emails[0].value)
+                }, function(err, user) {
+                    if (err)
+                        return done(err);
+
+                    if (user) {
+                        user.Name = profile.displayName;
+                        user.Google.Name = profile.displayName;
+                        user.Google.Id = String(profile.id);
+                        user.Google.Email = profile.emails[0].value;
+                        user.Google.Gender = profile.gender;
+
+                        user.save(function(err) {
+                            if(err) 
+                                throw err;
+                            
+                            return done(null, user);
+                        });
+                    } else {
+                        var newUser = new User();
+
+                        newUser.Name = profile.displayName;
+                        newUser.Email = String(profile.emails[0].value);
+                        newUser.Google.Name = profile.displayName;
+                        newUser.Google.Id = String(profile.id);
+                        newUser.Google.Email = String(profile.emails[0].value);
+                        newUser.Google.Gender = profile.gender;
+
+                        newUser.Username = 'gg' + String(profile.id).substring(0, 16);
+                        newUser.Password = 'none';
+                        newUser.Meta.Created = new Date();
+                        newUser.Roles = 'user';
+
+                        newUser.Terms.v1.accepted = true;
+                        newUser.Terms.v1.date = new Date();
+
+                        if (newUser.validateSync()){
+                            return done(newUser.validateSync().toString());
+                        }
+
+
+                        newUser.save(function(err) {
+                            if (err)
+                                throw err;
+
+                            return done(null, newUser);
+                        });
+                    }
+
+                });
+
+            });
+        }
+    ));
 
 };

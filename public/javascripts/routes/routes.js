@@ -6,7 +6,12 @@ $(document).ready(function() {
 
     changeRoute = false;
 
-    populateRouteList(true);
+    var id = window.location.href.split("/routes/", 2);
+    if(id[1]){
+        populateRouteList(false);
+    }else{
+        populateRouteList(true);
+    }
 
     // route link click
     $('#list').on('click', 'a.route-list-item', showRoute);
@@ -48,8 +53,24 @@ function populateRouteList(firstCall = false) {
         // Inject the whole content string into our existing HTML table
         $('#list').html(listContent);
 
-        // Set first details if requested
-        if(firstCall) $('#list').find('a:first').click();
+        var id = window.location.href.split("/routes/", 2);
+        if(id[1]){
+            // Getting ready
+            $('.email-content-title').text('Data word opgehaald');
+
+            // jQuery AJAX call for JSON
+            $.getJSON( '/routes/' + id[1], function( data ) {
+
+                showRouteInfo(data);
+                showRouteDetails(data);
+
+            }).fail(function(err){
+                $('#message').html('<div class="error"><a href="#" onclick="closeMessage()">X</a><strong>Error ' + err.status + '</strong> ' + err.responseText + '</div>');
+            });
+        }else{
+            // Set first details if requested
+            if(firstCall) $('#list').find('a:first').click();
+        }
     });
 };
 
@@ -259,10 +280,6 @@ function flipChangeRoute(){
 
     // Getting ready
     $('.email-content-title').text('Data word opgehaald');
-
-    // Select requested item
-    $('div.email-item').removeClass('email-item-selected email-item-unread');
-    $(this).find('div.email-item').addClass('email-item-selected email-item-unread');
 
     // jQuery AJAX call for JSON
     $.getJSON( '/routes/' + $(this).attr('rel'), function( data ) {
