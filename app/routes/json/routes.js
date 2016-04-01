@@ -12,6 +12,8 @@ var jsonAuth = require('../../middleware/jsonAuthentication');
 
 // Async
 var async = require('async');
+var http = require('http');
+var request = require('request');
 
 //todo:
 //alle outheticatie bijwerken zodat hier geen rechten fouten in ontstaan
@@ -74,11 +76,10 @@ router.route('/:id')
             });
         });
     })
-    .get(jsonAuth.isAuthenticated, function(req, res) {
+    //.get(jsonAuth.isAuthenticated, function(req, res) {
+        .get(function(req, res) {
 
-        //https://maps.googleapis.com/maps/api/geocode/json?location=49.8208,6.3486&key=AIzaSyD6XPbtiBTAzA-iCGzq5OlYQ7U_k7fd3SY
-
-        async.parallel({
+       async.parallel({
                 route: function(callback) {
                     Route.findById(req.params.id, function(err, docs) {
                         callback(err, docs);
@@ -103,7 +104,25 @@ router.route('/:id')
                     }
                 }
 
-                res.json(theRoute);
+                var location = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=';
+                // location += out.route.Location.Longatude + ',';
+                // location += out.route.Location.Latetude;
+                location += '49.8320825,';
+                location += '6.3415671';
+                location += '&sensor=false';
+
+                request({
+                    url: location,
+                    json: true
+                }, function (err, result, data) {
+                    if(err)
+                        res.json(theRoute);
+
+                    if(data.results[0].formatted_address)
+                        theRoute.LocationArea = String(data.results[0].formatted_address);
+    
+                    res.json(theRoute);
+                })
             }
         );
     })

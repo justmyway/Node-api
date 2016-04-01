@@ -98,7 +98,7 @@ function showRoute(event) {
 // Show Route Info
 function showRouteInfo(data) {
     $('.email-content-title').text('Route details "' + data.Name + '"');
-    $('.email-content-subtile').text('Geklommen door ' + data.ClimberName);
+    $('.email-content-subtile').html('Geklommen door ' + data.ClimberName + '<br/><a href="https://www.google.nl/maps/place/' + data.LocationArea + '"><gray>' + data.LocationArea + '</gray></a>.');
     $('#change-route').attr('rel', data._id);
     $('#delete-route').attr('rel', data._id);
 };

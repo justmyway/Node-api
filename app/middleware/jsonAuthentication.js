@@ -37,16 +37,11 @@ module.exports = {
 
             if (req.user.hasAnyRole("admin"))
                 return next();
-
-            console.log('2');
             Route.findById(req.params.id, 'Climber').exec(function(err, route) {
                 if (err)
                     throw err;
 
-                console.log('3');
-
                 if (String(route.Climber) == String(req.user._id)) {
-                    console.log('4');
                     return next();
                 } else {
                     res.status(403).send('Je hebt geen rechten aanpassingen aan deze route te maken.');
