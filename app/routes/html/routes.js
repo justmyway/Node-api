@@ -13,7 +13,7 @@ var Route = mongoose.model('Routes');
 var async = require('async');
 
 router.route('/')
-    .get(function(req, res) {
+    .get(authMiddleware.isAuthenticated, function(req, res) {
 
         res.render('routes/routes');
     })
@@ -24,7 +24,7 @@ router.route('/new')
     })
 
 router.route('/:id')
-    .get(function(req, res) {
+    .get(authMiddleware.isAuthenticated, function(req, res) {
 
         res.render('routes/routes');
     })
