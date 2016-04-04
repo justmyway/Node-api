@@ -15,9 +15,6 @@ var async = require('async');
 var http = require('http');
 var request = require('request');
 
-//todo:
-//alle outheticatie bijwerken zodat hier geen rechten fouten in ontstaan
-
 router.route('/')
     .get(function(req, res) {
 
@@ -59,6 +56,7 @@ router.route('/')
         });
     })
 
+/* istanbul ignore next */
 router.route('/:id')
     .all(function(req, res, next) {
         Route.findById(req.params.id, function(err, out) {

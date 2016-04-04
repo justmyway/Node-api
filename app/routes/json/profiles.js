@@ -9,6 +9,7 @@ var jsonAuthMiddleware = require('../../middleware/jsonAuthentication');
 var mongoose = require('mongoose');
 var Users = mongoose.model('User')
 
+/* istanbul ignore next */
 router.route('/')
     .all(jsonAuthMiddleware.isAdmin, function(req, res, next){
 		next();
@@ -30,6 +31,7 @@ router.route('/')
         });
     })
 
+/* istanbul ignore next */
 router.route('/:id')
     .all(jsonAuthMiddleware.isAdmin, function(req, res, next){
         next();

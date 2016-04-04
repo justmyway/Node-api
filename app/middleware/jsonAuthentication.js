@@ -22,7 +22,7 @@ module.exports = {
     },
 
     isAdmin: function(req, res, next) {
-        if(req.user.hasAnyRole('admin')){
+        if(req.isAuthenticated() && req.user.hasAnyRole('admin')){
             return next();
         }else{
             return res.status(403).send('Je moet een admin zijn om hier te komen.');

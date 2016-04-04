@@ -6,7 +6,7 @@ module.exports = {
 
     isAuthenticated: function(req, res, next) {
         if (!req.isAuthenticated()) {
-            res.redirect('/profile/login');
+            res.status(401).redirect('/profile/login');
         } else {
             return next();
         }
@@ -21,7 +21,7 @@ module.exports = {
     },
 
     isAdmin: function(req, res, next) {
-        if(req.user.hasAnyRole('admin')){
+        if(req.isAuthenticated() && req.user.hasAnyRole('admin')){
             return next();
         }else{
             return res.status(403).redirect('/profile');
