@@ -1,5 +1,5 @@
-//var express = require('express');
-var express = require('express.io');
+var express = require('express');
+//var express = require('express.io');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -13,7 +13,7 @@ var expressLayouts = require('express-ejs-layouts');
 
 // App
 var app = express();
-app.http().io();
+//app.http().io();
 
 // Models
 require('./app/models/userModel');
