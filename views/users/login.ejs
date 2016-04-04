@@ -1,0 +1,26 @@
+<% include submenu %>
+
+<div id="main" class="pure-u-1">
+	<div class="email-content">
+		<div class="email-content-header pure-g">
+			<div class="pure-u-1">
+				<h1 class="email-content-title">Inloggen</h1>
+			</div>
+		</div>
+    	<div class="email-content-body">
+    	 	<% if(locals.error.length > 0) { %>
+                <p class="message error"><%= locals.error %></p>
+            <% } %>
+            <form class="pure-form pure-form-aligned" action="/profile/login" method="post">
+			    <fieldset>
+			        <input name="username" type="text" placeholder="Gebruikersnaam">
+			        <input name="password" type="password" placeholder="********">
+
+			        <button type="submit" class="pure-button pure-button-primary">Inloggen</button>
+			    </fieldset>
+			</form>
+			<a href="/auth/facebook"><button id="facebook" class="pure-button pure-button-primary">Inloggen met Facebook</button></a>
+			<a href="/auth/google"><button id="google" class="pure-button pure-button-red">Inloggen met google</button></a>
+		</div>
+	</div>
+</div>

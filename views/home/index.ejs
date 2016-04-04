@@ -1,0 +1,16 @@
+<div id="main" class="pure-u-1">
+	<div class="email-content">
+		<div class="email-content-header pure-g">
+			<div class="pure-u-1">
+				<h1 class="email-content-title">Welkom</h1>
+			</div>
+		</div>
+    	<div class="email-content-body">
+    	 	<% if(locals.error) { %>
+                <p class="message error"><%= locals.error %></p>
+            <% } %>
+            <h1>Leuk dat je ons bezoekt!</h1>
+            <p>Hier kun je je geklommen routes registreren, net als gebruik maken van onze api.</p>
+		</div>
+	</div>
+</div>

@@ -27,6 +27,7 @@ build/Release
 
 # Dependency directory
 node_modules
+startDB.cmd
 
 # Optional npm cache directory
 .npm
@@ -34,3 +35,4 @@ node_modules
 # Optional REPL history
 .node_repl_history
 startDB.cmd
+startMongoDB.cmd
