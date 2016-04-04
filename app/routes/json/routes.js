@@ -116,6 +116,8 @@ router.route('/:id')
                     url: location,
                     json: true
                 }, function (err, result, data) {
+                    console.log(data);
+
                     if(err)
                         res.json(theRoute);
 
