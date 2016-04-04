@@ -86,3 +86,28 @@ p.email-avatar{
 gray{
 	color: gray;
 }
+
+table {
+    border-collapse: collapse;
+    width: 95%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+td input{
+	width:90%;
+}
+
+.small-layout{
+	padding-left: 160px !important;
+}
+
+.small-layout header #nav{
+	margin-left: -160px;
+}
+
+table tr:nth-child(odd){ background-color:#fccea4; }
+table tr:nth-child(even){ background-color:#e0f3fc; }

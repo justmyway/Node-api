@@ -14,12 +14,10 @@ var mongoose = require('mongoose');
 var Route = mongoose.model('Routes');
 
 router.route('/')
-	//.all(authMiddleware.isAdmin, function(req, res, next) {
-	.all(function(req, res, next) {
+	.all(authMiddleware.isAdmin, function(req, res, next) {
         next();
     })
     .get(function(req, res) {
-
         res.render('users/users', { layout: 'layouts/overviewLayout' });
     })
 

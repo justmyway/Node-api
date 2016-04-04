@@ -14,8 +14,8 @@
                     <% if (locals.user) { %>
                         <li class="pure-menu-item"><a href="/profile" class="pure-menu-link">Profiel</a></li>
                         <% if (locals.user.Roles.indexOf('admin') > -1) { %>
-                            <li class="pure-menu-item"><a href="/user"
-                         class="pure-menu-link">User</a></li>
+                            <li class="pure-menu-item"><a href="/users"
+                         class="pure-menu-link">Users</a></li>
                          <% } %>
                         <li class="pure-menu-item"><a href="/profile/logout" class="pure-menu-link">Uitloggen</a></li>
                     <% } else { %>

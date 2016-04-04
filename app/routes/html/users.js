@@ -15,7 +15,7 @@ module.exports = function(passport){
     router.route('/')
         .get(authMiddleware.isAuthenticated, function(req, res) {
 
-            res.status(200).render('users/register.ejs', {
+            res.status(200).render('routes/routes.ejs', {
                 page: 'register',
                 error: req.flash('errorMessage')
             });
@@ -30,7 +30,7 @@ module.exports = function(passport){
             });
         })
         .post(passport.authenticate('local-login', {
-            successRedirect: '/route/new',
+            successRedirect: '/routes/new',
             failureRedirect: '/profile/login',
             failureFlash: true
         }))

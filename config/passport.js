@@ -201,6 +201,7 @@ module.exports = function(passport) {
             callbackURL: ((process.env.callback_google) ? process.env.callback_google : secretVariables.google.callbackURL)
         },
         function(accessToken, refreshToken, profile, done){
+            console.log(profile);
             process.nextTick(function() {
                 User.findOne({
                     'Email': String(profile.emails[0].value)

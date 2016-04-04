@@ -3,12 +3,6 @@ $(document).ready(function() {
 
     $('#delete-route').on('click', deleteRoute);
 
-    // // Add User button click
-    // $('#btnAddUser').on('click', addUser);
-
-    //  // Delete User link click
-    // $('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
-
 });
 
 // Functions =============================================================

@@ -76,8 +76,7 @@ router.route('/:id')
             });
         });
     })
-    //.get(jsonAuth.isAuthenticated, function(req, res) {
-        .get(function(req, res) {
+    .get(jsonAuth.isAuthenticated, function(req, res) {
 
        async.parallel({
                 route: function(callback) {
@@ -107,8 +106,10 @@ router.route('/:id')
                 var location = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=';
                 // location += out.route.Location.Longatude + ',';
                 // location += out.route.Location.Latetude;
-                location += '49.8320825,';
-                location += '6.3415671';
+                //location += '49.8320825,';
+                //location += '6.3415671';
+                location += '50.484545,';
+                location += '4.9427051';
                 location += '&sensor=false';
 
                 request({
@@ -137,8 +138,6 @@ router.route('/:id')
         });
     })
     .put(jsonAuth.mayTemperRoute, function(req, res) {
-
-        console.log(req);
 
         Route.findById(req.params.id, function(err, out) {
             if (err)

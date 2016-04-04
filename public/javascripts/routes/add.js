@@ -21,8 +21,6 @@ function addRoute(event) {
         Color: $form.find("input[name='Color']").val()
     };
 
-    console.log("tets " + $('#outdooronoffswitch').val());
-
     url = $form.attr('action');
 
     $.post('/api'+url, data)

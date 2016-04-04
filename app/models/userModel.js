@@ -74,7 +74,8 @@ var userSchema = mongoose.Schema({
 
     Meta: {
         Created: Date,
-        LastVisited: Date
+        LastVisited: Date,
+        Modified: Date
     }
 });
 
