@@ -105,10 +105,6 @@ app.use('/api/routes', jsonRoutes);
 app.use('/api/users', jsonProfiles);
 app.use('/api/auth', jsonAuth);
 
-//io
-require('./app/routes/json/ioProfiles')(app);
-
-
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

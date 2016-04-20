@@ -8,17 +8,18 @@ var jsonAuthMiddleware = require('../../middleware/jsonAuthentication');
 // Load models
 var mongoose = require('mongoose');
 var Users = mongoose.model('User')
+var Routes = mongoose.model('Routes')
 
 /* istanbul ignore next */
 router.route('/')
-    .all(jsonAuthMiddleware.isAdmin, function(req, res, next){
-		next();
-	})
+    .all(jsonAuthMiddleware.isAdmin, function(req, res, next) {
+        next();
+    })
     .get(function(req, res) {
 
         var queryString = req.url.split('?');
         routeQuery = {};
-        if(queryString[1]){
+        if (queryString[1]) {
             var query = queryString[1];
             query.split("&").forEach(function(part) {
                 var item = part.split("=");
@@ -33,12 +34,12 @@ router.route('/')
 
 /* istanbul ignore next */
 router.route('/:id')
-    .all(jsonAuthMiddleware.isAdmin, function(req, res, next){
+    .all(jsonAuthMiddleware.isAdmin, function(req, res, next) {
         next();
     })
     .get(function(req, res) {
 
-        User.findById(req.params.id, "-Password" , function(err, reqUser) {
+        User.findById(req.params.id, "-Password", function(err, reqUser) {
             res.json(reqUser);
         });
     })
@@ -62,10 +63,10 @@ router.route('/:id')
             out.Email = req.body.Email;
             out.Username = req.body.Username;
             out.Roles = req.body.Roles;
-            if(req.body.Google == 'false')
+            if (req.body.Google == 'false')
                 out.Google = undefined;
-            
-            if(req.body.Facebook == 'false')
+
+            if (req.body.Facebook == 'false')
                 out.Facebook = undefined;
 
             out.Meta.Modified = new Date();
@@ -82,6 +83,63 @@ router.route('/:id')
                 res.status(201).send('De gebruiker "' + out.Username + '" is aangepast!');
             });
 
+        });
+    })
+
+router.route('/:appid/routes')
+    .all(function(req, res, next) {
+        //todo:
+        //alle reequests hier graag loggen
+
+        User.findOne({
+            "AppID": req.params.appid
+        }, function(err, user) {
+            if (err)
+                return res.status(404).send('Niet gevonden');
+
+            req.user = user
+
+            next();
+        });
+    })
+    .get(function(req, res, next) {
+        Routes.find({
+            "Climber": req.user._id
+        }, function(err, routes) {
+            if (err)
+                return res.status(404).send('Niet gevonden');
+
+            res.status(200).json(routes);
+        });
+    })
+    .post(function(req, res, next) {
+
+        var newRoute = new Route();
+        newRoute.Climber = req.user._id;
+        newRoute.Name = req.body.Name;
+        newRoute.Grade.France = req.body.Grade.France;
+        newRoute.Grade.Usa = req.body.Grade.Usa;
+        newRoute.Grade.German = req.body.Grade.German;
+        newRoute.LeadClimbed = req.body.LeadClimbed;
+        newRoute.Outdoor = req.body.Outdoor;
+        newRoute.Rope = req.body.Rope;
+        newRoute.Color = req.body.Color;
+        newRoute.Location.Longitude = req.body.Location.Longitude;
+        newRoute.Location.Latitude = req.body.Location.Latitude;
+        newRoute.Meta.Climbed = req.body.Climbed;
+
+        console.log(newRoute);
+
+        // validate route
+        if (newRoute.validateSync())
+            res.status(406).send('Gegevens incorrect:' + newRoute.validateSync().toString());
+
+        // save route
+        newRoute.save(function(err) {
+            if (err)
+                res.status(500).send(err);
+
+            res.status(201).send('Route "' + newRoute.Name + '" is toegevoegd.');
         });
     })
 

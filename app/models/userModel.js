@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 
 var userSchema = mongoose.Schema({
-    _id: { 
+    _id: {
         type: mongoose.Schema.ObjectId,
         auto: true
     },
@@ -44,7 +44,16 @@ var userSchema = mongoose.Schema({
         }
     },
 
-    Roles: [{type: String}],
+    AppID: {
+        type: String,
+        //unique: true,
+        minlength: 16,
+        maxlength: 24
+    },
+
+    Roles: [{
+        type: String
+    }],
 
     Facebook: {
         Id: String,
@@ -98,7 +107,9 @@ userSchema.methods.hasAnyRole = function(roles) {
     return this.Roles.indexOf(roles) > -1;
 };
 
-userSchema.plugin(uniqueValidator, { message: '{PATH} moet unique zijn.' });
+userSchema.plugin(uniqueValidator, {
+    message: '{PATH} moet unique zijn.'
+});
 
 mongoose.model('User', userSchema);
 

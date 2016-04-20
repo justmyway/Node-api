@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var routesSchema = mongoose.Schema({
-    _id: { 
+    _id: {
         type: mongoose.Schema.ObjectId,
         auto: true
     },
@@ -17,8 +17,8 @@ var routesSchema = mongoose.Schema({
     Color: String,
 
     Location: {
-        Longatude: String,
-        Latetude: String,
+        Longitude: String,
+        Latitude: String,
         Area: String,
         City: String,
         Land: String
@@ -31,6 +31,7 @@ var routesSchema = mongoose.Schema({
     },
 
     Meta: {
+        Climbed: Date,
         Created: {
             type: Date,
             default: Date.now

@@ -20,7 +20,7 @@ router.route('/')
 
         var queryString = req.url.split('?');
         routeQuery = {};
-        if(queryString[1]){
+        if (queryString[1]) {
             var query = queryString[1];
             query.split("&").forEach(function(part) {
                 var item = part.split("=");
@@ -76,7 +76,7 @@ router.route('/:id')
     })
     .get(jsonAuth.isAuthenticated, function(req, res) {
 
-       async.parallel({
+        async.parallel({
                 route: function(callback) {
                     Route.findById(req.params.id, function(err, docs) {
                         callback(err, docs);
@@ -94,8 +94,8 @@ router.route('/:id')
 
                 var theRoute = out.route.toObject();
 
-                for(var i = 0; i < out.climbers.length; i++){
-                    if(String(theRoute.Climber) == String(out.climbers[i]['_id'])){
+                for (var i = 0; i < out.climbers.length; i++) {
+                    if (String(theRoute.Climber) == String(out.climbers[i]['_id'])) {
                         theRoute.ClimberName = String(out.climbers[i]['Name']);
                         break;
                     }
@@ -113,15 +113,15 @@ router.route('/:id')
                 request({
                     url: location,
                     json: true
-                }, function (err, result, data) {
+                }, function(err, result, data) {
                     console.log(data);
 
-                    if(err)
+                    if (err)
                         res.json(theRoute);
 
-                    if(data.results[0].formatted_address)
+                    if (data.results[0].formatted_address)
                         theRoute.LocationArea = String(data.results[0].formatted_address);
-    
+
                     res.json(theRoute);
                 })
             }
