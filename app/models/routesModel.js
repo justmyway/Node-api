@@ -19,6 +19,7 @@ var routesSchema = mongoose.Schema({
     Location: {
         Longitude: String,
         Latitude: String,
+        Accuracy: Number,
         Area: String,
         City: String,
         Land: String
