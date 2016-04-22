@@ -28,7 +28,7 @@ router.route('/')
             });
         }
 
-        Route.find(routeQuery, null, {sort: {Meta.Created: 1}} function(err, routes) {
+        Route.find(routeQuery).sort('-Meta.Created').exec(function(err, routes) {
             res.status(200).json(routes);
         });
     })

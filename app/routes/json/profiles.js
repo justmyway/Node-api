@@ -105,7 +105,7 @@ router.route('/:appid/routes')
     .get(function(req, res, next) {
         Routes.find({
             "Climber": req.user._id
-        }, function(err, routes) {
+        }).sort('-Meta.Created').exec(function(err, routes) {
             if (err)
                 return res.status(404).send('Niet gevonden');
 
