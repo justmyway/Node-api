@@ -126,6 +126,7 @@ router.route('/:appid/routes')
         newRoute.Color = req.body.Color;
         newRoute.Location.Longitude = req.body.Location.Longitude;
         newRoute.Location.Latitude = req.body.Location.Latitude;
+        newRoute.Location.Accuracy = req.body.Location.Accuracy;
         newRoute.Meta.Climbed = req.body.Climbed;
 
         console.log(newRoute);
