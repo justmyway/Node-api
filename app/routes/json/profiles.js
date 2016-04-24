@@ -114,6 +114,10 @@ router.route('/:appid/routes')
     })
     .post(function(req, res, next) {
 
+        if (req.body.Name.length == 0){
+            res.status(406).send('Gegevens incorrect:' + newRoute.validateSync().toString());
+        }
+
         var newRoute = new Route();
         newRoute.Climber = req.user._id;
         newRoute.Name = req.body.Name;
