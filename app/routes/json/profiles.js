@@ -117,16 +117,14 @@ router.route('/:appid/routes')
         var newRoute = new Route();
         newRoute.Climber = req.user._id;
         newRoute.Name = req.body.Name;
-        newRoute.Grade.France = req.body.Grade.France;
-        newRoute.Grade.Usa = req.body.Grade.Usa;
-        newRoute.Grade.German = req.body.Grade.German;
+        newRoute.Grade.France = req.body.GradeFrance;
         newRoute.LeadClimbed = req.body.LeadClimbed;
         newRoute.Outdoor = req.body.Outdoor;
         newRoute.Rope = req.body.Rope;
         newRoute.Color = req.body.Color;
-        newRoute.Location.Longitude = req.body.Location.Longitude;
-        newRoute.Location.Latitude = req.body.Location.Latitude;
-        newRoute.Location.Accuracy = req.body.Location.Accuracy;
+        newRoute.Location.Longitude = req.body.Longitude;
+        newRoute.Location.Latitude = req.body.Latitude;
+        newRoute.Location.Accuracy = req.body.Accuracy;
         newRoute.Meta.Climbed = req.body.Climbed;
 
         console.log(newRoute);
