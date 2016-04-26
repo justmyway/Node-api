@@ -102,12 +102,13 @@ router.route('/:id')
                 }
 
                 var location = 'http://maps.googleapis.com/maps/api/geocode/json?latlng=';
-                // location += out.route.Location.Longatude + ',';
-                // location += out.route.Location.Latetude;
-                //location += '49.8320825,';
-                //location += '6.3415671';
-                location += '50.484545,';
-                location += '4.9427051';
+                if(out.route.Location && out.route.Location.Longitude.length > 0){
+                    location += out.route.Location.Longitude + ',';
+                    location += out.route.Location.Latitude;
+                }else{
+                    location += '50.484545,';
+                    location += '4.9427051';
+                }
                 location += '&sensor=false';
 
                 request({
